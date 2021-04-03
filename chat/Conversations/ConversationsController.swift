@@ -10,12 +10,25 @@ import UIKit
 
 class ConversationsController: UIViewController {
     
+    // MARK: - Properties
+    var coordinator: ConversationsCoordinator?
+    
     // MARK: - Init
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = Color.white
         
-        let loginController = UINavigationController(rootViewController: LoginController())
-        navigationController?.present(loginController, animated: true, completion: nil)
+        configureNavigationController()
+    }
+    
+    // MARK: - Targets
+    @objc private func didTapLoginButton() {
+        coordinator?.showLogin()
+    }
+    
+    // MARK: - Handlers
+    private func configureNavigationController() {
+        let loginButton = UIBarButtonItem(title: "Log in", style: .plain, target: self, action: #selector(didTapLoginButton))
+        navigationItem.rightBarButtonItem = loginButton
     }
 }

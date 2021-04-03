@@ -13,6 +13,8 @@ class LoginController: UIViewController {
     // MARK: - Properties
     private var contentView: LoginView!
     
+    var coordinator: LoginCoordinator?
+    
     // MARK: - Init
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,18 +23,22 @@ class LoginController: UIViewController {
         setupTargets()
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        coordinator?.viewDidDisappear()
+    }
+    
     deinit {
         print("Deinit: \(self)")
     }
     
     // MARK: - Targets
     @objc private func didTapSignupButton() {
-        let signupController = SignupController()
-        navigationController?.pushViewController(signupController, animated: true)
+        coordinator?.showSignup()
     }
     
     @objc private func didTapPasswordLoginButton() {
-        print("handle log in")
+        coordinator?.didFinishLogin()
     }
     
     // MARK: - Handlers

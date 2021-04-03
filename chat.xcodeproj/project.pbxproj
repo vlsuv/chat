@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		67A7078D2618BBC6007B5EBB /* SignupCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A7078C2618BBC6007B5EBB /* SignupCoordinator.swift */; };
 		67D0B19C261735B7004A0304 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D0B19B261735B7004A0304 /* AppDelegate.swift */; };
 		67D0B19E261735B7004A0304 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D0B19D261735B7004A0304 /* SceneDelegate.swift */; };
 		67D0B1A5261735CD004A0304 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 67D0B1A4261735CD004A0304 /* Assets.xcassets */; };
@@ -19,6 +20,11 @@
 		67D0B1CF2617412C004A0304 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D0B1CE2617412C004A0304 /* LoginView.swift */; };
 		67D0B1D126174E00004A0304 /* SignupController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D0B1D026174E00004A0304 /* SignupController.swift */; };
 		67D0B1D326174E11004A0304 /* SignupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D0B1D226174E11004A0304 /* SignupView.swift */; };
+		67D0B1D626175B72004A0304 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D0B1D526175B72004A0304 /* AppCoordinator.swift */; };
+		67D0B1D826175BA2004A0304 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D0B1D726175BA2004A0304 /* Coordinator.swift */; };
+		67D0B1DA26175D77004A0304 /* ConversationsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D0B1D926175D77004A0304 /* ConversationsCoordinator.swift */; };
+		67D0B1DC261760F8004A0304 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D0B1DB261760F8004A0304 /* Image.swift */; };
+		67D0B1DE26176392004A0304 /* LoginCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D0B1DD26176392004A0304 /* LoginCoordinator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,6 +38,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		67A7078C2618BBC6007B5EBB /* SignupCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupCoordinator.swift; sourceTree = "<group>"; };
 		67D0B198261735B7004A0304 /* chat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = chat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		67D0B19B261735B7004A0304 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		67D0B19D261735B7004A0304 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -48,6 +55,11 @@
 		67D0B1CE2617412C004A0304 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		67D0B1D026174E00004A0304 /* SignupController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupController.swift; sourceTree = "<group>"; };
 		67D0B1D226174E11004A0304 /* SignupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupView.swift; sourceTree = "<group>"; };
+		67D0B1D526175B72004A0304 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
+		67D0B1D726175BA2004A0304 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
+		67D0B1D926175D77004A0304 /* ConversationsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsCoordinator.swift; sourceTree = "<group>"; };
+		67D0B1DB261760F8004A0304 /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
+		67D0B1DD26176392004A0304 /* LoginCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCoordinator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +104,7 @@
 				67D0B19B261735B7004A0304 /* AppDelegate.swift */,
 				67D0B19D261735B7004A0304 /* SceneDelegate.swift */,
 				67D0B1A9261735CD004A0304 /* Info.plist */,
+				67D0B1D426175B57004A0304 /* Coordinators */,
 				67D0B1C3261738F2004A0304 /* Conversations */,
 				67D0B1C9261740B5004A0304 /* Login */,
 				67D0B1BF26173880004A0304 /* Resouces */,
@@ -139,6 +152,7 @@
 			isa = PBXGroup;
 			children = (
 				67D0B1C726173A7F004A0304 /* Color.swift */,
+				67D0B1DB261760F8004A0304 /* Image.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -168,6 +182,18 @@
 				67D0B1D226174E11004A0304 /* SignupView.swift */,
 			);
 			path = Signup;
+			sourceTree = "<group>";
+		};
+		67D0B1D426175B57004A0304 /* Coordinators */ = {
+			isa = PBXGroup;
+			children = (
+				67D0B1D726175BA2004A0304 /* Coordinator.swift */,
+				67D0B1D526175B72004A0304 /* AppCoordinator.swift */,
+				67D0B1D926175D77004A0304 /* ConversationsCoordinator.swift */,
+				67D0B1DD26176392004A0304 /* LoginCoordinator.swift */,
+				67A7078C2618BBC6007B5EBB /* SignupCoordinator.swift */,
+			);
+			path = Coordinators;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -272,13 +298,19 @@
 			files = (
 				67D0B1D326174E11004A0304 /* SignupView.swift in Sources */,
 				67D0B19C261735B7004A0304 /* AppDelegate.swift in Sources */,
+				67D0B1DE26176392004A0304 /* LoginCoordinator.swift in Sources */,
+				67D0B1D626175B72004A0304 /* AppCoordinator.swift in Sources */,
 				67D0B1BE26173798004A0304 /* ConversationsController.swift in Sources */,
 				67D0B19E261735B7004A0304 /* SceneDelegate.swift in Sources */,
 				67D0B1D126174E00004A0304 /* SignupController.swift in Sources */,
+				67A7078D2618BBC6007B5EBB /* SignupCoordinator.swift in Sources */,
+				67D0B1DC261760F8004A0304 /* Image.swift in Sources */,
+				67D0B1D826175BA2004A0304 /* Coordinator.swift in Sources */,
 				67D0B1C2261738CF004A0304 /* UIView extensions.swift in Sources */,
 				67D0B1C826173A7F004A0304 /* Color.swift in Sources */,
 				67D0B1CF2617412C004A0304 /* LoginView.swift in Sources */,
 				67D0B1CD26174122004A0304 /* LoginController.swift in Sources */,
+				67D0B1DA26175D77004A0304 /* ConversationsCoordinator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
