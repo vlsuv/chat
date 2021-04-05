@@ -22,8 +22,12 @@ class ConversationsCoordinator: Coordinator {
     
     // MARK: - Handlers
     func start() {
+        let conversationsViewModel = ConversationsViewModel()
+        conversationsViewModel.coordinator = self
+        
         let conversationsController = ConversationsController()
-        conversationsController.coordinator = self
+        conversationsController.viewModel = conversationsViewModel
+        
         navigationController.viewControllers = [conversationsController]
     }
     

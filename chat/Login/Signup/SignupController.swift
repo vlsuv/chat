@@ -13,7 +13,7 @@ class SignupController: UIViewController {
     // MARK: - Properties
     private var contentView: SignupView!
     
-    var coordinator: SignupCoordinator?
+    var viewModel: SignupViewModelType?
     
     // MARK: - Init
     override func viewDidLoad() {
@@ -24,8 +24,7 @@ class SignupController: UIViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        coordinator?.viewDidDisappear()
-        self.dismiss(animated: false, completion: nil)
+        viewModel?.viewDidDisappear()
     }
     
     deinit {
@@ -34,7 +33,7 @@ class SignupController: UIViewController {
     
     // MARK: - Targets
     @objc private func didTapSignupButton() {
-        coordinator?.didFinishSignup()
+        viewModel?.handleSignup()
     }
     
     // MARK: - Handlers

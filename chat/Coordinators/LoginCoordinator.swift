@@ -29,8 +29,11 @@ class LoginCoordinator: Coordinator {
     
     // MARK: - Handlers
     func start() {
+        let loginViewModel = LoginViewModel()
+        loginViewModel.coordinator = self
+        
         let loginController = LoginController()
-        loginController.coordinator = self
+        loginController.viewModel = loginViewModel
         
         modalNavigationController = UINavigationController()
         modalNavigationController?.modalPresentationStyle = .fullScreen

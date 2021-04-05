@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		670F46DA261B0BF90014FAD1 /* ConversationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670F46D9261B0BF90014FAD1 /* ConversationsViewModel.swift */; };
+		670F46DC261B0E270014FAD1 /* SignupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670F46DB261B0E270014FAD1 /* SignupViewModel.swift */; };
+		670F46DE261B0FAD0014FAD1 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670F46DD261B0FAD0014FAD1 /* LoginViewModel.swift */; };
+		670F46E0261B128B0014FAD1 /* ConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670F46DF261B128B0014FAD1 /* ConversationCell.swift */; };
+		670F46E2261B12C30014FAD1 /* ConversationCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670F46E1261B12C30014FAD1 /* ConversationCellViewModel.swift */; };
 		67A7078D2618BBC6007B5EBB /* SignupCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A7078C2618BBC6007B5EBB /* SignupCoordinator.swift */; };
 		67D0B19C261735B7004A0304 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D0B19B261735B7004A0304 /* AppDelegate.swift */; };
 		67D0B19E261735B7004A0304 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D0B19D261735B7004A0304 /* SceneDelegate.swift */; };
@@ -38,6 +43,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		670F46D9261B0BF90014FAD1 /* ConversationsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsViewModel.swift; sourceTree = "<group>"; };
+		670F46DB261B0E270014FAD1 /* SignupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupViewModel.swift; sourceTree = "<group>"; };
+		670F46DD261B0FAD0014FAD1 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		670F46DF261B128B0014FAD1 /* ConversationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationCell.swift; sourceTree = "<group>"; };
+		670F46E1261B12C30014FAD1 /* ConversationCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationCellViewModel.swift; sourceTree = "<group>"; };
 		67A7078C2618BBC6007B5EBB /* SignupCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupCoordinator.swift; sourceTree = "<group>"; };
 		67D0B198261735B7004A0304 /* chat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = chat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		67D0B19B261735B7004A0304 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -143,7 +153,10 @@
 		67D0B1C3261738F2004A0304 /* Conversations */ = {
 			isa = PBXGroup;
 			children = (
+				670F46D9261B0BF90014FAD1 /* ConversationsViewModel.swift */,
 				67D0B1BD26173798004A0304 /* ConversationsController.swift */,
+				670F46E1261B12C30014FAD1 /* ConversationCellViewModel.swift */,
+				670F46DF261B128B0014FAD1 /* ConversationCell.swift */,
 			);
 			path = Conversations;
 			sourceTree = "<group>";
@@ -169,6 +182,7 @@
 		67D0B1CA261740C8004A0304 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				670F46DD261B0FAD0014FAD1 /* LoginViewModel.swift */,
 				67D0B1CC26174121004A0304 /* LoginController.swift */,
 				67D0B1CE2617412C004A0304 /* LoginView.swift */,
 			);
@@ -178,6 +192,7 @@
 		67D0B1CB261740CD004A0304 /* Signup */ = {
 			isa = PBXGroup;
 			children = (
+				670F46DB261B0E270014FAD1 /* SignupViewModel.swift */,
 				67D0B1D026174E00004A0304 /* SignupController.swift */,
 				67D0B1D226174E11004A0304 /* SignupView.swift */,
 			);
@@ -296,14 +311,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				670F46DC261B0E270014FAD1 /* SignupViewModel.swift in Sources */,
 				67D0B1D326174E11004A0304 /* SignupView.swift in Sources */,
+				670F46DA261B0BF90014FAD1 /* ConversationsViewModel.swift in Sources */,
 				67D0B19C261735B7004A0304 /* AppDelegate.swift in Sources */,
 				67D0B1DE26176392004A0304 /* LoginCoordinator.swift in Sources */,
+				670F46E2261B12C30014FAD1 /* ConversationCellViewModel.swift in Sources */,
 				67D0B1D626175B72004A0304 /* AppCoordinator.swift in Sources */,
 				67D0B1BE26173798004A0304 /* ConversationsController.swift in Sources */,
 				67D0B19E261735B7004A0304 /* SceneDelegate.swift in Sources */,
+				670F46DE261B0FAD0014FAD1 /* LoginViewModel.swift in Sources */,
 				67D0B1D126174E00004A0304 /* SignupController.swift in Sources */,
 				67A7078D2618BBC6007B5EBB /* SignupCoordinator.swift in Sources */,
+				670F46E0261B128B0014FAD1 /* ConversationCell.swift in Sources */,
 				67D0B1DC261760F8004A0304 /* Image.swift in Sources */,
 				67D0B1D826175BA2004A0304 /* Coordinator.swift in Sources */,
 				67D0B1C2261738CF004A0304 /* UIView extensions.swift in Sources */,

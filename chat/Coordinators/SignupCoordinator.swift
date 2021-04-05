@@ -28,8 +28,12 @@ class SignupCoordinator: Coordinator {
     
     // MARK: - Handlers
     func start() {
+        let signupViewModel = SignupViewModel()
+        signupViewModel.coordinator = self
+        
         let signupController = SignupController()
-        signupController.coordinator = self
+        signupController.viewModel = signupViewModel
+        
         navigationController.pushViewController(signupController, animated: true)
     }
     
