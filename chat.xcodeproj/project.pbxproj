@@ -306,6 +306,7 @@
 				67D0B195261735B7004A0304 /* Frameworks */,
 				67D0B196261735B7004A0304 /* Resources */,
 				0A3B5E5B5DE6A4AF350F94E1 /* [CP] Embed Pods Frameworks */,
+				341FF835FB0EA8E90EBFC949 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -409,6 +410,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-chat/Pods-chat-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		341FF835FB0EA8E90EBFC949 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-chat/Pods-chat-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-chat/Pods-chat-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-chat/Pods-chat-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		7A533F28F2B9F4752308DEF9 /* [CP] Check Pods Manifest.lock */ = {

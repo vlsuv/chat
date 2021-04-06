@@ -8,6 +8,7 @@
 
 import UIKit
 import Combine
+import GoogleSignIn
 
 class LoginController: UIViewController {
     
@@ -25,6 +26,8 @@ class LoginController: UIViewController {
         configureNavigationController()
         setupTargets()
         setupBindings()
+        
+        GIDSignIn.sharedInstance()?.presentingViewController = self
     }
     
     override func viewDidDisappear(_ animated: Bool) {

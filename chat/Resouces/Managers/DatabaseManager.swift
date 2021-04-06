@@ -66,4 +66,12 @@ extension DatabaseManager {
             })
         }.eraseToAnyPublisher()
     }
+    
+    func existUser(withUid uid: String) -> AnyPublisher<Bool, Error> {
+        return Future { [weak self] promise in
+            self?.ref.child(uid).observeSingleEvent(of: .value, with: { snapshot in
+                promise(.success(snapshot.exists()))
+            })
+        }.eraseToAnyPublisher()
+    }
 }

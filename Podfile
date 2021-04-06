@@ -8,6 +8,7 @@ target 'chat' do
   # Pods for chat
   pod 'Firebase/Auth'
   pod 'Firebase/Database'
+  pod 'GoogleSignIn'
 
   target 'chatTests' do
     inherit! :search_paths

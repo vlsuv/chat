@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import GoogleSignIn
 
 class LoginView: UIView {
     
@@ -58,6 +59,11 @@ class LoginView: UIView {
         return button
     }()
     
+    var googleLoginButton: GIDSignInButton = {
+        let button = GIDSignInButton()
+        return button
+    }()
+    
     // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -86,11 +92,15 @@ class LoginView: UIView {
                                            y: passwordTextField.bottom + 10,
                                            width: scrollView.width - 60,
                                            height: 52)
+        googleLoginButton.frame = CGRect(x: scrollView.left + 30,
+                                         y: passwordLoginButton.bottom + 10,
+                                         width: scrollView.width - 60,
+                                         height: 52)
     }
     
     // MARK: - Handlers
     private func setupSubviews() {
         self.addSubview(scrollView)
-        [activityIndicator, emailTextField, passwordTextField, passwordLoginButton].forEach { scrollView.addSubview($0) }
+        [activityIndicator, emailTextField, passwordTextField, passwordLoginButton, googleLoginButton].forEach { scrollView.addSubview($0) }
     }
 }
