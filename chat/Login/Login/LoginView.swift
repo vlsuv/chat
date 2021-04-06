@@ -16,6 +16,13 @@ class LoginView: UIView {
         return scrollView
     }()
     
+    var activityIndicator: UIActivityIndicatorView = {
+        let ai = UIActivityIndicatorView(style: .medium)
+        ai.color = Color.black
+        ai.hidesWhenStopped = true
+        return ai
+    }()
+    
     var emailTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "Email"
@@ -66,6 +73,7 @@ class LoginView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         scrollView.frame = self.bounds
+        activityIndicator.center = self.center
         emailTextField.frame = CGRect(x: scrollView.left + 30,
                                       y: scrollView.top + 30,
                                       width: scrollView.width - 60,
@@ -83,6 +91,6 @@ class LoginView: UIView {
     // MARK: - Handlers
     private func setupSubviews() {
         self.addSubview(scrollView)
-        [emailTextField, passwordTextField, passwordLoginButton].forEach { scrollView.addSubview($0) }
+        [activityIndicator, emailTextField, passwordTextField, passwordLoginButton].forEach { scrollView.addSubview($0) }
     }
 }

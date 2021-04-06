@@ -29,7 +29,12 @@ class AppCoordinator: Coordinator {
         conversationsCoordinator.start()
         childCoordinators.append(conversationsCoordinator)
         
-        tabBarController.viewControllers = [conversationsNavigationController]
+        let settingsNavigationController = createNavigationController(title: "Settings", image: Image.settings)
+        let settingsCoordinator = SettingsCoordinator(navigationController: settingsNavigationController)
+        settingsCoordinator.start()
+        childCoordinators.append(settingsCoordinator)
+        
+        tabBarController.viewControllers = [conversationsNavigationController, settingsNavigationController]
         
         window.rootViewController = tabBarController
         window.makeKeyAndVisible()

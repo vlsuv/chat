@@ -10,4 +10,5 @@ import UIKit
 
 enum Image {
     static let conversations = UIImage(systemName: "bubble.left.and.bubble.right.fill") ?? UIImage()
+    static let settings = UIImage(systemName: "gear") ?? UIImage()
 }

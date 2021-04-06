@@ -7,13 +7,16 @@
 //
 
 import UIKit
+import Combine
 
 class LoginController: UIViewController {
     
     // MARK: - Properties
     private var contentView: LoginView!
     
-    var viewModel: LoginViewModelType?
+    var viewModel: LoginViewModelType!
+    
+    var cancellables = Set<AnyCancellable>()
     
     // MARK: - Init
     override func viewDidLoad() {
@@ -21,6 +24,7 @@ class LoginController: UIViewController {
         setupContentView()
         configureNavigationController()
         setupTargets()
+        setupBindings()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -54,5 +58,28 @@ class LoginController: UIViewController {
     
     private func setupTargets() {
         contentView.passwordLoginButton.addTarget(self, action: #selector(didTapPasswordLoginButton), for: .touchUpInside)
+    }
+    
+    private func setupBindings() {
+        contentView.emailTextField
+            .textPublisher
+            .assign(to: \.email, on: viewModel)
+            .store(in: &cancellables)
+        
+        contentView.passwordTextField
+            .textPublisher
+            .assign(to: \.password, on: viewModel)
+            .store(in: &cancellables)
+        
+        viewModel.isLoadingPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] isLoading in
+                if isLoading {
+                    self?.contentView.activityIndicator.startAnimating()
+                } else {
+                    self?.contentView.activityIndicator.stopAnimating()
+                }
+        }
+        .store(in: &cancellables)
     }
 }

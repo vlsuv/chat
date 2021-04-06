@@ -16,6 +16,13 @@ class SignupView: UIView {
         return scrollView
     }()
     
+    var activityIndicator: UIActivityIndicatorView = {
+        let ai = UIActivityIndicatorView(style: .medium)
+        ai.color = Color.black
+        ai.hidesWhenStopped = true
+        return ai
+    }()
+    
     var nameTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "Name"
@@ -79,6 +86,7 @@ class SignupView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         scrollView.frame = self.bounds
+        activityIndicator.center = self.center
         nameTextField.frame = CGRect(x: scrollView.left + 30,
                                      y: scrollView.top + 30,
                                      width: scrollView.width - 60,
@@ -100,7 +108,7 @@ class SignupView: UIView {
     // MARK: - Handlers
     private func setupSubviews() {
         self.addSubview(scrollView)
-        [nameTextField, emailTextField, passwordTextField, signupButton].forEach{ scrollView.addSubview($0) }
+        [activityIndicator, nameTextField, emailTextField, passwordTextField, signupButton].forEach{ scrollView.addSubview($0) }
     }
     
     
