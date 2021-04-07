@@ -42,4 +42,11 @@ class SettingsCoordinator: Coordinator {
         loginCoordinator.start()
         childCoordinators.append(loginCoordinator)
     }
+    
+    func showImagePicker() {
+        let imagePickerCoordinator = ImagePickerCoordinator(navigationController: navigationController)
+        imagePickerCoordinator.parentCoordinator = self
+        imagePickerCoordinator.start()
+        childCoordinators.append(imagePickerCoordinator)
+    }
 }

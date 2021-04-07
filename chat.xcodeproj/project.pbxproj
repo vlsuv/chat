@@ -22,7 +22,9 @@
 		670F46F1261B2BB60014FAD1 /* SettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670F46F0261B2BB60014FAD1 /* SettingCell.swift */; };
 		670F46F4261B30400014FAD1 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670F46F3261B30400014FAD1 /* DatabaseManager.swift */; };
 		670F46F7261B37010014FAD1 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670F46F6261B37010014FAD1 /* User.swift */; };
+		67A3AF32261DC411007A7714 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A3AF31261DC411007A7714 /* StorageManager.swift */; };
 		67A7078D2618BBC6007B5EBB /* SignupCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A7078C2618BBC6007B5EBB /* SignupCoordinator.swift */; };
+		67AD1AC7261C8F8E00F0152A /* ImagePickerCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67AD1AC6261C8F8D00F0152A /* ImagePickerCoordinator.swift */; };
 		67D0B19C261735B7004A0304 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D0B19B261735B7004A0304 /* AppDelegate.swift */; };
 		67D0B19E261735B7004A0304 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D0B19D261735B7004A0304 /* SceneDelegate.swift */; };
 		67D0B1A5261735CD004A0304 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 67D0B1A4261735CD004A0304 /* Assets.xcassets */; };
@@ -71,7 +73,9 @@
 		670F46F0261B2BB60014FAD1 /* SettingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingCell.swift; sourceTree = "<group>"; };
 		670F46F3261B30400014FAD1 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		670F46F6261B37010014FAD1 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		67A3AF31261DC411007A7714 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		67A7078C2618BBC6007B5EBB /* SignupCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupCoordinator.swift; sourceTree = "<group>"; };
+		67AD1AC6261C8F8D00F0152A /* ImagePickerCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerCoordinator.swift; sourceTree = "<group>"; };
 		67D0B198261735B7004A0304 /* chat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = chat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		67D0B19B261735B7004A0304 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		67D0B19D261735B7004A0304 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -142,6 +146,7 @@
 			isa = PBXGroup;
 			children = (
 				670F46F3261B30400014FAD1 /* DatabaseManager.swift */,
+				67A3AF31261DC411007A7714 /* StorageManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -279,6 +284,7 @@
 				67D0B1D926175D77004A0304 /* ConversationsCoordinator.swift */,
 				67D0B1DD26176392004A0304 /* LoginCoordinator.swift */,
 				67A7078C2618BBC6007B5EBB /* SignupCoordinator.swift */,
+				67AD1AC6261C8F8D00F0152A /* ImagePickerCoordinator.swift */,
 			);
 			path = Coordinators;
 			sourceTree = "<group>";
@@ -489,6 +495,7 @@
 				670F46E2261B12C30014FAD1 /* ConversationCellViewModel.swift in Sources */,
 				67D0B1D626175B72004A0304 /* AppCoordinator.swift in Sources */,
 				670F46E6261B1A770014FAD1 /* Combine extensions.swift in Sources */,
+				67AD1AC7261C8F8E00F0152A /* ImagePickerCoordinator.swift in Sources */,
 				67D0B1BE26173798004A0304 /* ConversationsController.swift in Sources */,
 				67D0B19E261735B7004A0304 /* SceneDelegate.swift in Sources */,
 				670F46DE261B0FAD0014FAD1 /* LoginViewModel.swift in Sources */,
@@ -506,6 +513,7 @@
 				670F46EB261B27F10014FAD1 /* SettingsController.swift in Sources */,
 				67D0B1CD26174122004A0304 /* LoginController.swift in Sources */,
 				67D0B1DA26175D77004A0304 /* ConversationsCoordinator.swift in Sources */,
+				67A3AF32261DC411007A7714 /* StorageManager.swift in Sources */,
 				670F46EF261B2BA60014FAD1 /* SettingCellViewModel.swift in Sources */,
 				670F46F4261B30400014FAD1 /* DatabaseManager.swift in Sources */,
 			);

@@ -8,11 +8,16 @@
 
 import UIKit
 import Firebase
+import Combine
 
 protocol SettingsViewModelType {
     func numberOfRows() -> Int
     func settingCellViewModel(forIndexPath indexPath: IndexPath) -> SettingCellViewModelType?
     func didSelectRow(at indexPath: IndexPath)
+    
+    var userPhoto: CurrentValueSubject<UIImage, Never> { get set }
+    
+    func didTapChangeUserPhoto()
 }
 
 class SettingsViewModel: SettingsViewModelType {
@@ -21,6 +26,16 @@ class SettingsViewModel: SettingsViewModelType {
     var settings: [String] = ["Sign out"]
     
     var coordinator: SettingsCoordinator?
+    
+    private var cancellables = Set<AnyCancellable>()
+    
+    var userPhoto = CurrentValueSubject<UIImage, Never>(Image.defaultUserPicture)
+    
+    // MARK: - Init
+    init() {
+        setupBindings()
+        getUserPhoto()
+    }
     
     // MARK: - Handlers
     func numberOfRows() -> Int {
@@ -40,4 +55,58 @@ class SettingsViewModel: SettingsViewModelType {
             print(error)
         }
     }
+    
+    func didTapChangeUserPhoto() {
+        coordinator?.showImagePicker()
+    }
+    
+    private func setupBindings() {
+        NotificationCenter.default
+            .publisher(for: .didChangeUserPhoto)
+            .map{ $0.object as? UIImage }
+            .sink { [weak self] image in
+                self?.changeUserPhoto(atImage: image)
+        }
+        .store(in: &cancellables)
+    }
 }
+
+extension SettingsViewModel {
+    private func changeUserPhoto(atImage image: UIImage?) {
+        guard let currentUser = Auth.auth().currentUser, let imageData = image?.pngData() else { return }
+        
+        StorageManager.shared
+            .uploadUserPhotoIntoStorage(userUid: currentUser.uid, photoData: imageData)
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                case .finished:
+                    break
+                case .failure(let error):
+                    print(error)
+                }
+            }) { [weak self] _ in
+                self?.getUserPhoto()
+        }
+        .store(in: &cancellables)
+    }
+    
+    private func getUserPhoto() {
+        guard let currentUser = Auth.auth().currentUser else { return }
+        
+        StorageManager.shared
+            .downloadUserPhoto(userUid: currentUser.uid)
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                case .finished:
+                    break
+                case .failure(let error):
+                    print(error)
+                }
+            }) { [weak self] image in
+                self?.userPhoto.send(image)
+        }
+        .store(in: &cancellables)
+    }
+}
+
+
