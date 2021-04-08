@@ -20,6 +20,10 @@ class ConversationsCoordinator: Coordinator {
         self.navigationController = navigationController
     }
     
+    deinit {
+        print("deinit: \(self)")
+    }
+    
     // MARK: - Handlers
     func start() {
         let conversationsViewModel = ConversationsViewModel()
@@ -34,12 +38,5 @@ class ConversationsCoordinator: Coordinator {
     func childDidFinish(_ childCoordinator: Coordinator) {
         guard let index = childCoordinators.firstIndex(where: { $0 === childCoordinator }) else { return }
         childCoordinators.remove(at: index)
-    }
-    
-    func showLogin() {
-        let loginCoordinator = LoginCoordinator(navigationController: navigationController)
-        loginCoordinator.parentCoordinator = self
-        loginCoordinator.start()
-        childCoordinators.append(loginCoordinator)
     }
 }

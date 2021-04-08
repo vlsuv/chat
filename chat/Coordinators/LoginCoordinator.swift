@@ -15,12 +15,12 @@ class LoginCoordinator: Coordinator {
     
     var parentCoordinator: Coordinator?
     
-    private let navigationController: UINavigationController
+    private let tabBarController: UITabBarController
     private var modalNavigationController: UINavigationController?
     
     // MARK: - Init
-    init(navigationController: UINavigationController) {
-        self.navigationController = navigationController
+    init(tabBarController: UITabBarController) {
+        self.tabBarController = tabBarController
     }
     
     deinit {
@@ -40,7 +40,7 @@ class LoginCoordinator: Coordinator {
         modalNavigationController?.viewControllers = [loginController]
         
         if let modalNavigationController = modalNavigationController {
-            navigationController.present(modalNavigationController, animated: true, completion: nil)
+            tabBarController.present(modalNavigationController, animated: true, completion: nil)
         }
     }
     

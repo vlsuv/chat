@@ -25,7 +25,7 @@ class DatabaseManager {
 
 extension DatabaseManager {
     
-    func insertUserIntoDatabase(_ user: User) -> AnyPublisher<Void, DatabaseError> {
+    func insertUserIntoDatabase(_ user: AppUser) -> AnyPublisher<Void, DatabaseError> {
         return Future { [weak self] promise in
             
             let userDictionary = user.toDictionary()

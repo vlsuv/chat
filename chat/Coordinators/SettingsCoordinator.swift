@@ -20,6 +20,10 @@ class SettingsCoordinator: Coordinator {
         self.navigationController = navigationController
     }
     
+    deinit {
+        print("deinit \(self)")
+    }
+    
     // MARK: - Handlers
     func start() {
         let settingsViewModel = SettingsViewModel()
@@ -34,13 +38,6 @@ class SettingsCoordinator: Coordinator {
     func childDidFinish(_ childCoordinator: Coordinator) {
         guard let index = childCoordinators.firstIndex(where: { $0 === childCoordinator }) else { return }
         childCoordinators.remove(at: index)
-    }
-    
-    func showLogin() {
-        let loginCoordinator = LoginCoordinator(navigationController: navigationController)
-        loginCoordinator.parentCoordinator = self
-        loginCoordinator.start()
-        childCoordinators.append(loginCoordinator)
     }
     
     func showImagePicker() {

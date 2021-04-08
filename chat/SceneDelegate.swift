@@ -7,10 +7,14 @@
 //
 
 import UIKit
+import Combine
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
+    
+    private var appCoordinator: AppCoordinator?
+    private var authState: Cancellable?
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -18,10 +22,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.windowScene = windowScene
-        
         if let window = window {
-            let appCoordinator = AppCoordinator(window: window)
-            appCoordinator.start()
+            appCoordinator = AppCoordinator(window: window)
+            appCoordinator?.start()
+            setupAuthStateSubscriber()
+        }
+    }
+}
+
+extension SceneDelegate {
+    func setupAuthStateSubscriber() {
+        authState = Publishers.AuthPublisher()
+            .map { $0 != nil }
+            .sink { [weak self] isLogged in
+                isLogged ? self?.appCoordinator?.startApp() : self?.appCoordinator?.showLogin()
         }
     }
 }

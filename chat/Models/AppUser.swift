@@ -8,13 +8,13 @@
 
 import Foundation
 
-struct User {
+struct AppUser {
     var name: String
     var email: String
     var uid: String
 }
 
-extension User {
+extension AppUser {
     func toDictionary() -> [String: Any] {
         return [
             "name": name,

@@ -67,7 +67,7 @@ class SignupViewModel: SignupViewModelType {
                 }
             }
             
-            let user = User(name: self.name,
+            let user = AppUser(name: self.name,
                             email: self.email,
                             uid: result.user.uid)
             

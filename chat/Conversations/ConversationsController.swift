@@ -24,15 +24,20 @@ class ConversationsController: UIViewController {
         configureTableView()
     }
     
+    deinit {
+        print("deinit: \(self)")
+    }
+    
     // MARK: - Targets
-    @objc private func didTapLoginButton() {
-        viewModel?.showLogin()
+    @objc private func didTapNewMessageButton() {
+        print("handle new conversation")
     }
     
     // MARK: - Handlers
     private func configureNavigationController() {
-        let loginButton = UIBarButtonItem(title: "Log in", style: .plain, target: self, action: #selector(didTapLoginButton))
-        navigationItem.rightBarButtonItem = loginButton
+        let newMessageButton = UIBarButtonItem(image: Image.newMessage, style: .plain, target: self, action: #selector(didTapNewMessageButton))
+        
+        navigationItem.rightBarButtonItem = newMessageButton
     }
     
     private func configureTableView() {

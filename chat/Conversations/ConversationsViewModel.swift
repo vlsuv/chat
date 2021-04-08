@@ -9,8 +9,6 @@
 import UIKit
 
 protocol ConversationsViewModelType {
-    func showLogin()
-    
     func numberOfRows() -> Int
     func conversationCellViewModel(forIndexPath indexPath: IndexPath) -> ConversationCellViewModelType?
 }
@@ -18,15 +16,16 @@ protocol ConversationsViewModelType {
 class ConversationsViewModel: ConversationsViewModelType {
     
     // MARK: - Properties
-    var coordinator: ConversationsCoordinator?
+    weak var coordinator: ConversationsCoordinator?
     
     var conversations: [String] = ["foo", "foo"]
     
     // MARK: - Init
-    func showLogin() {
-        coordinator?.showLogin()
+    deinit {
+        print("deinit: \(self)")
     }
     
+    // MARK: - Handlers
     func numberOfRows() -> Int {
         return conversations.count
     }

@@ -103,7 +103,7 @@ extension LoginViewModel: GIDSignInDelegate {
                 }
             }
             
-            let googleUser = User(name: user.profile.name,
+            let googleUser = AppUser(name: user.profile.name,
                                   email: user.profile.email,
                                   uid: result.user.uid)
             
@@ -119,7 +119,7 @@ extension LoginViewModel: GIDSignInDelegate {
         }
     }
     
-    private func insertGoogleUserIntoDatabase(_ user: User) {
+    private func insertGoogleUserIntoDatabase(_ user: AppUser) {
         DatabaseManager.shared.insertUserIntoDatabase(user).sink(receiveCompletion: { completion in
             switch completion {
             case .finished:

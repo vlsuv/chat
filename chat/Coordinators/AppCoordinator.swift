@@ -15,6 +15,8 @@ class AppCoordinator: Coordinator {
     
     private let window: UIWindow
     
+    private var tabBarController: UITabBarController?
+    
     // MARK: - Init
     init(window: UIWindow) {
         self.window = window
@@ -22,8 +24,19 @@ class AppCoordinator: Coordinator {
     
     // MARK: - Handlers
     func start() {
-        let tabBarController = UITabBarController()
+        tabBarController = UITabBarController()
+        tabBarController?.view.backgroundColor = Color.white
         
+        window.rootViewController = tabBarController
+        window.makeKeyAndVisible()
+    }
+    
+    func childDidFinish(_ childCoordinator: Coordinator) {
+        guard let index = childCoordinators.firstIndex(where: { $0 === childCoordinator }) else { return }
+        childCoordinators.remove(at: index)
+    }
+    
+    func startApp() {
         let conversationsNavigationController = createNavigationController(title: "Conversations", image: Image.conversations)
         let conversationsCoordinator = ConversationsCoordinator(navigationController: conversationsNavigationController)
         conversationsCoordinator.start()
@@ -34,15 +47,19 @@ class AppCoordinator: Coordinator {
         settingsCoordinator.start()
         childCoordinators.append(settingsCoordinator)
         
-        tabBarController.viewControllers = [conversationsNavigationController, settingsNavigationController]
-        
-        window.rootViewController = tabBarController
-        window.makeKeyAndVisible()
+        tabBarController?.viewControllers = [conversationsNavigationController, settingsNavigationController]
     }
     
-    func childDidFinish(_ childCoordinator: Coordinator) {
-        guard let index = childCoordinators.firstIndex(where: { $0 === childCoordinator }) else { return }
-        childCoordinators.remove(at: index)
+    func showLogin() {
+        guard let tabBarController = tabBarController else { return }
+        
+        childCoordinators.removeAll()
+        tabBarController.viewControllers?.removeAll()
+        
+        let loginCoordinator = LoginCoordinator(tabBarController: tabBarController)
+        loginCoordinator.parentCoordinator = self
+        loginCoordinator.start()
+        childCoordinators.append(loginCoordinator)
     }
 }
 

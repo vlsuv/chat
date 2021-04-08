@@ -27,6 +27,10 @@ class SettingsController: UIViewController {
         setupBindings()
     }
     
+    deinit {
+        print("deinit: \(self)")
+    }
+    
     // MARK: - Targets
     @objc private func didTapChangeUserPhotoButton() {
         viewModel.didTapChangeUserPhoto()

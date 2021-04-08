@@ -25,7 +25,7 @@ class SettingsViewModel: SettingsViewModelType {
     // MARK: - Properties
     var settings: [String] = ["Sign out"]
     
-    var coordinator: SettingsCoordinator?
+    weak var coordinator: SettingsCoordinator?
     
     private var cancellables = Set<AnyCancellable>()
     
@@ -35,6 +35,10 @@ class SettingsViewModel: SettingsViewModelType {
     init() {
         setupBindings()
         getUserPhoto()
+    }
+    
+    deinit {
+        print("deinit: \(self)")
     }
     
     // MARK: - Handlers
@@ -50,7 +54,6 @@ class SettingsViewModel: SettingsViewModelType {
     func didSelectRow(at indexPath: IndexPath) {
         do {
             try Auth.auth().signOut()
-            coordinator?.showLogin()
         } catch {
             print(error)
         }
