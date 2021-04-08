@@ -30,7 +30,7 @@ class ConversationsController: UIViewController {
     
     // MARK: - Targets
     @objc private func didTapNewMessageButton() {
-        print("handle new conversation")
+        viewModel.didTapNewMessage()
     }
     
     // MARK: - Handlers

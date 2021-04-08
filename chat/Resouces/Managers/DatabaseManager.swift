@@ -12,6 +12,7 @@ import FirebaseDatabase
 
 enum DatabaseError: Error {
     case FailedToAddUser
+    case FailedToFetchUsers
 }
 
 class DatabaseManager {
@@ -67,10 +68,24 @@ extension DatabaseManager {
         }.eraseToAnyPublisher()
     }
     
-    func existUser(withUid uid: String) -> AnyPublisher<Bool, Error> {
+    func existUser(withUid uid: String) -> AnyPublisher<Bool, Never> {
         return Future { [weak self] promise in
             self?.ref.child(uid).observeSingleEvent(of: .value, with: { snapshot in
                 promise(.success(snapshot.exists()))
+            })
+        }.eraseToAnyPublisher()
+    }
+    
+    func fetchAllUsers() -> AnyPublisher<[AppUser], DatabaseError> {
+        return Future { [weak self] promise in
+            self?.ref.child("users").observeSingleEvent(of: .value, with: { snapshot in
+                guard let value = snapshot.value,
+                    let jsonData = try? JSONSerialization.data(withJSONObject: value),
+                    let users = try? JSONDecoder().decode([AppUser].self, from: jsonData) else {
+                        promise(.failure(.FailedToFetchUsers))
+                        return
+                }
+                promise(.success(users))
             })
         }.eraseToAnyPublisher()
     }

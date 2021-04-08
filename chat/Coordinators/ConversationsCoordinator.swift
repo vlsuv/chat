@@ -39,4 +39,11 @@ class ConversationsCoordinator: Coordinator {
         guard let index = childCoordinators.firstIndex(where: { $0 === childCoordinator }) else { return }
         childCoordinators.remove(at: index)
     }
+    
+    func showNewMessage() {
+        let newMessageCoordinator = NewMessageCoordinator(navigationController: navigationController)
+        newMessageCoordinator.parentCoordinator = self
+        newMessageCoordinator.start()
+        childCoordinators.append(newMessageCoordinator)
+    }
 }

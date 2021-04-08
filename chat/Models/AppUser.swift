@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct AppUser {
+struct AppUser: Decodable {
     var name: String
     var email: String
     var uid: String

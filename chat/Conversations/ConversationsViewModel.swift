@@ -11,6 +11,8 @@ import UIKit
 protocol ConversationsViewModelType {
     func numberOfRows() -> Int
     func conversationCellViewModel(forIndexPath indexPath: IndexPath) -> ConversationCellViewModelType?
+    
+    func didTapNewMessage()
 }
 
 class ConversationsViewModel: ConversationsViewModelType {
@@ -33,5 +35,9 @@ class ConversationsViewModel: ConversationsViewModelType {
     func conversationCellViewModel(forIndexPath indexPath: IndexPath) -> ConversationCellViewModelType? {
         let conversation = conversations[indexPath.row]
         return ConversationCellViewModel(conversation: conversation)
+    }
+    
+    func didTapNewMessage() {
+        coordinator?.showNewMessage()
     }
 }
