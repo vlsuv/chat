@@ -8,7 +8,11 @@
 
 import UIKit
 
-class ConversationsCoordinator: Coordinator {
+protocol ConversationsCoordinatorProtocol: Coordinator {
+   func showChat(withUser user: AppUser, conversation: Conversation?)
+}
+
+class ConversationsCoordinator: ConversationsCoordinatorProtocol {
     
     // MARK: - Properties
     private(set) var childCoordinators: [Coordinator] = [Coordinator]()
@@ -45,5 +49,12 @@ class ConversationsCoordinator: Coordinator {
         newMessageCoordinator.parentCoordinator = self
         newMessageCoordinator.start()
         childCoordinators.append(newMessageCoordinator)
+    }
+    
+    func showChat(withUser user: AppUser, conversation: Conversation?) {
+        let chatCoordinator = ChatCoordinator(navigationController: navigationController, user: user, conversation: conversation)
+        chatCoordinator.parentCoordinator = self
+        chatCoordinator.start()
+        childCoordinators.append(chatCoordinator)
     }
 }

@@ -10,6 +10,7 @@ target 'chat' do
   pod 'Firebase/Database'
   pod 'GoogleSignIn'
   pod 'Firebase/Storage'
+  pod 'MessageKit'
 
   target 'chatTests' do
     inherit! :search_paths

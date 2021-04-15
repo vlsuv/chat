@@ -13,13 +13,16 @@ protocol NewMessageViewModelType {
     func numberOfRows() -> Int
     func newMessageCellViewModel(forIndexPath indexPath: IndexPath) -> NewMessageCellViewModelType?
     
-    func viewDidDisappear()
-    
-    func searchUser(withText text: String)
-    
     var resultPublisher: Published<[AppUser]>.Publisher { get }
     
     var isLoadingPublisher: Published<Bool>.Publisher { get }
+    
+    func viewDidDisappear()
+    func didTapCancel()
+    
+    func searchUser(withText text: String)
+    
+    func didSelect(atIndexPath indexPath: IndexPath)
 }
 
 class NewMessageViewModel: NewMessageViewModelType {
@@ -56,9 +59,19 @@ class NewMessageViewModel: NewMessageViewModelType {
     func viewDidDisappear() {
         coordinator?.viewDidDisappear()
     }
+    
+    func didTapCancel() {
+        coordinator?.didCancelNewChat()
+    }
 }
 
 extension NewMessageViewModel {
+    
+    func didSelect(atIndexPath indexPath: IndexPath) {
+        let user = result[indexPath.row]
+        coordinator?.showNewChat(withUser: user)
+    }
+    
     func searchUser(withText text: String) {
         isLoading = true
         
@@ -92,6 +105,6 @@ extension NewMessageViewModel {
     private func filterUsers(withTerm term: String) {
         isLoading = false
         
-        result = users.filter { $0.name.lowercased().hasPrefix(term) || $0.email.lowercased().hasPrefix(term) }
+        result = users.filter { $0.displayName.lowercased().hasPrefix(term) || $0.email.lowercased().hasPrefix(term) }
     }
 }

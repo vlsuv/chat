@@ -67,9 +67,9 @@ class SignupViewModel: SignupViewModelType {
                 }
             }
             
-            let user = AppUser(name: self.name,
-                            email: self.email,
-                            uid: result.user.uid)
+            let user = AppUser(senderId: result.user.uid,
+                               displayName: self.name,
+                               email: self.email)
             
             DatabaseManager.shared.insertUserIntoDatabase(user)
                 .sink(receiveCompletion: { completion in

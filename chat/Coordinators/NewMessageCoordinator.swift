@@ -13,7 +13,7 @@ class NewMessageCoordinator: Coordinator {
     // MARK: - Properties
     private(set) var childCoordinators: [Coordinator] = [Coordinator]()
     
-    var parentCoordinator: Coordinator?
+    var parentCoordinator: ConversationsCoordinatorProtocol?
     
     private let navigationController: UINavigationController
     private var modalNavigationController: UINavigationController?
@@ -45,5 +45,14 @@ class NewMessageCoordinator: Coordinator {
     func viewDidDisappear() {
         modalNavigationController?.viewControllers = []
         parentCoordinator?.childDidFinish(self)
+    }
+    
+    func didCancelNewChat() {
+        modalNavigationController?.dismiss(animated: true, completion: nil)
+    }
+    
+    func showNewChat(withUser user: AppUser) {
+        modalNavigationController?.dismiss(animated: true, completion: nil)
+        parentCoordinator?.showChat(withUser: user, conversation: nil)
     }
 }

@@ -103,11 +103,11 @@ extension LoginViewModel: GIDSignInDelegate {
                 }
             }
             
-            let googleUser = AppUser(name: user.profile.name,
-                                  email: user.profile.email,
-                                  uid: result.user.uid)
+            let googleUser = AppUser(senderId: result.user.uid,
+                                     displayName: user.profile.name,
+                                     email: user.profile.email)
             
-            DatabaseManager.shared.existUser(withUid: googleUser.uid).sink(receiveCompletion: { _ in
+            DatabaseManager.shared.existUser(withUid: googleUser.senderId).sink(receiveCompletion: { _ in
             }) { [weak self] isExist in
                 if isExist {
                     self?.isLoading = false

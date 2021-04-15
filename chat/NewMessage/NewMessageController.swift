@@ -51,7 +51,7 @@ class NewMessageController: UIViewController {
     
     // MARK: - Targets
     @objc private func didTapCancelButton() {
-        navigationController?.dismiss(animated: true, completion: nil)
+        viewModel.didTapCancel()
     }
     
     // MARK: - Handlers
@@ -122,6 +122,8 @@ extension NewMessageController: UITableViewDataSource {
 extension NewMessageController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        viewModel.didSelect(atIndexPath: indexPath)
     }
 }
 

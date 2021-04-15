@@ -17,7 +17,7 @@ class NewMessageCellViewModel: NewMessageCellViewModelType {
     // MARK: - Properties
     private let user: AppUser
     var name: String {
-        return user.name
+        return user.displayName
     }
     
     // MARK: - Init

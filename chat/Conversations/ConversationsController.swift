@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Combine
 
 class ConversationsController: UIViewController {
     
@@ -15,6 +16,8 @@ class ConversationsController: UIViewController {
     
     var viewModel: ConversationsViewModelType!
     
+    var cancellables = Set<AnyCancellable>()
+    
     // MARK: - Init
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,6 +25,7 @@ class ConversationsController: UIViewController {
         
         configureNavigationController()
         configureTableView()
+        setupBindings()
     }
     
     deinit {
@@ -46,7 +50,17 @@ class ConversationsController: UIViewController {
         tableView.delegate = self
         tableView.register(ConversationCell.self, forCellReuseIdentifier: ConversationCell.identifier)
         
+        tableView.rowHeight = 90
+        
         view.addSubview(tableView)
+    }
+    
+    private func setupBindings() {
+        viewModel.conversationsPublisher.receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.tableView.reloadData()
+        }
+        .store(in: &cancellables)
     }
 }
 
@@ -69,5 +83,9 @@ extension ConversationsController: UITableViewDataSource {
 
 // MARK: - UITableViewDelegate
 extension ConversationsController: UITableViewDelegate {
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        viewModel.didSelectChat(atIndexPath: indexPath)
+    }
 }

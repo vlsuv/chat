@@ -8,18 +8,8 @@
 
 import Foundation
 
-struct AppUser: Decodable {
-    var name: String
-    var email: String
-    var uid: String
-}
-
-extension AppUser {
-    func toDictionary() -> [String: Any] {
-        return [
-            "name": name,
-            "email": email,
-            "uid": uid
-        ]
-    }
-}
+//struct AppUser: Codable {
+//    var name: String
+//    var email: String
+//    var uid: String
+//}
