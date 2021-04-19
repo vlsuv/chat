@@ -45,5 +45,11 @@ class SettingsCoordinator: Coordinator {
         imagePickerCoordinator.parentCoordinator = self
         imagePickerCoordinator.start()
         childCoordinators.append(imagePickerCoordinator)
+        
+        imagePickerCoordinator.didFinishPickingMedia = { info in
+            guard let image = info[.editedImage] as? UIImage else { return }
+            
+            NotificationCenter.default.post(name: .didChangeUserPhoto, object: image)
+        }
     }
 }

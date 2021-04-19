@@ -17,6 +17,8 @@ class ImagePickerCoordinator: NSObject, Coordinator {
     
     private let navigationController: UINavigationController
     
+    var didFinishPickingMedia: (([UIImagePickerController.InfoKey : Any]) -> ())?
+    
     // MARK: - Init
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
@@ -73,21 +75,14 @@ class ImagePickerCoordinator: NSObject, Coordinator {
 extension ImagePickerCoordinator: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        guard let image = info[.editedImage] as? UIImage else { return }
+        didFinishPickingMedia?(info)
         
-        NotificationCenter.default.post(name: .didChangeUserPhoto, object: image)
-        
-        picker.dismiss(animated: true) { [weak self] in
-            guard let self = self else { return }
-            self.parentCoordinator?.childDidFinish(self)
-        }
+        picker.dismiss(animated: true, completion: nil)
+        parentCoordinator?.childDidFinish(self)
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        picker.dismiss(animated: true) { [weak self] in
-            guard let self = self else { return }
-            self.parentCoordinator?.childDidFinish(self)
-        }
+        picker.dismiss(animated: true, completion: nil)
+        parentCoordinator?.childDidFinish(self)
     }
-    
 }

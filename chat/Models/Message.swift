@@ -9,12 +9,6 @@
 import Foundation
 import MessageKit
 
-struct AppUser: SenderType, Codable {
-    var senderId: String
-    var displayName: String
-    var email: String
-}
-
 struct Message: MessageType, Codable {
     var sender: SenderType {
         return user
@@ -51,12 +45,14 @@ extension MessageKind: Codable {
         case .text:
             let message = try container.decode(String.self, forKey: .text)
             self = .text(message)
+        case .photo:
+            let media = try container.decode(Media.self, forKey: .photo)
+            self = .photo(media)
         case .none:
             throw CodingError.unknownValue
         case .some(_):
             throw CodingError.unknownValue
         }
-        
     }
     
     public func encode(to encoder: Encoder) throws {
@@ -67,8 +63,9 @@ extension MessageKind: Codable {
             try container.encode(message, forKey: .text)
         case .attributedText(_):
             break
-        case .photo(_):
-            break
+        case .photo(let media):
+            guard let media = media as? Media else { return }
+            try container.encode(media, forKey: .photo)
         case .video(_):
             break
         case .location(_):
@@ -86,5 +83,3 @@ extension MessageKind: Codable {
         }
     }
 }
-
-

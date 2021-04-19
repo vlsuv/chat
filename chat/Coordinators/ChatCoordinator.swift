@@ -45,4 +45,38 @@ class ChatCoordinator: Coordinator {
     func viewDidDisappear() {
         parentCoordinator?.childDidFinish(self)
     }
+    
+    func childDidFinish(_ childCoordinator: Coordinator) {
+        guard let index = childCoordinators.firstIndex(where: { $0 === childCoordinator }) else { return }
+        childCoordinators.remove(at: index)
+    }
+    
+    func showAttachmentsActionSheet() {
+        let attachmentsActionSheet = UIAlertController(title: "", message: "", preferredStyle: .actionSheet)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let photoAction = UIAlertAction(title: "Photo", style: .default) { [weak self] action in
+            attachmentsActionSheet.dismiss(animated: true, completion: nil)
+            self?.showImagePicker()
+        }
+        
+        attachmentsActionSheet.addAction(cancelAction)
+        attachmentsActionSheet.addAction(photoAction)
+        
+        navigationController.present(attachmentsActionSheet, animated: true, completion: nil)
+    }
+    
+    func showImagePicker() {
+        let imagePickerCoordinator = ImagePickerCoordinator(navigationController: navigationController)
+        imagePickerCoordinator.start()
+        
+        imagePickerCoordinator.parentCoordinator = self
+        childCoordinators.append(imagePickerCoordinator)
+        
+        imagePickerCoordinator.didFinishPickingMedia = { info in
+            guard let image = info[.editedImage] as? UIImage else { return }
+            
+            NotificationCenter.default.post(name: .didAttachPhoto, object: image)
+        }
+    }
 }

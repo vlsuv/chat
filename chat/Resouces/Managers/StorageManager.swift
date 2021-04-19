@@ -17,6 +17,7 @@ enum StorageError: Error {
 
 enum StorageEndpoint {
     case userPhoto(uid: String)
+    case messagePhoto(messageId: String)
     
     private var storageRef: StorageReference {
         return Storage.storage().reference()
@@ -27,6 +28,10 @@ enum StorageEndpoint {
         case .userPhoto(uid: let uid):
             let fileName = "\(uid)_user_photo.png"
             let ref = storageRef.child("images/\(fileName)")
+            return ref
+        case .messagePhoto(messageId: let messageId):
+            let fileName = "photo_message_\(messageId).png"
+            let ref = storageRef.child("message_photos/\(fileName)")
             return ref
         }
     }
@@ -70,6 +75,48 @@ extension StorageManager {
                     promise(.failure(.FailedToDownloadUserPhoto))
                     return
                 }
+                promise(.success(image))
+            }
+        }.eraseToAnyPublisher()
+    }
+    
+    func uploadMessagePhotoIntoStorage(imageData: Data, messageId: String) -> AnyPublisher<String, StorageError> {
+        let photoRef = StorageEndpoint.messagePhoto(messageId: messageId).getRef
+        
+        return Future { promise in
+            photoRef.putData(imageData, metadata: nil) { data, error in
+                if error != nil {
+                    promise(.failure(.FailedToUploadImage))
+                    return
+                }
+                
+                photoRef.downloadURL { url, error in
+                    if error != nil {
+                        promise(.failure(.FailedToUploadImage))
+                        return
+                    }
+                    
+                    guard let urlString = url?.absoluteString else {
+                        promise(.failure(.FailedToUploadImage))
+                        return
+                    }
+                    
+                    promise(.success(urlString))
+                }
+            }
+        }.eraseToAnyPublisher()
+    }
+    
+    func downloadMessagePhoto(messageId: String) -> AnyPublisher<UIImage, Never> {
+        let photoRef = StorageEndpoint.messagePhoto(messageId: messageId).getRef
+        
+        return Future { promise in
+            photoRef.getData(maxSize: 1 * 10240 * 10240) { data, error in
+                if error != nil {
+                    return
+                }
+                
+                guard let data = data, let image = UIImage(data: data) else { return }
                 promise(.success(image))
             }
         }.eraseToAnyPublisher()

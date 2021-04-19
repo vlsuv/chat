@@ -6,13 +6,14 @@
 //  Copyright © 2021 vlsuv. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 protocol Coordinator: class {
     func start()
     
     var childCoordinators: [Coordinator] { get }
     func childDidFinish(_ childCoordinator: Coordinator)
+    
 }
 
 extension Coordinator {

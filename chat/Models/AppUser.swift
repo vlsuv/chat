@@ -7,9 +7,10 @@
 //
 
 import Foundation
+import MessageKit
 
-//struct AppUser: Codable {
-//    var name: String
-//    var email: String
-//    var uid: String
-//}
+struct AppUser: SenderType, Codable {
+    var senderId: String
+    var displayName: String
+    var email: String
+}

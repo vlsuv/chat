@@ -11,6 +11,7 @@ import Combine
 
 extension Notification.Name {
     static let didChangeUserPhoto = Notification.Name("didChangeUserPhoto")
+    static let didAttachPhoto = Notification.Name("didAttachPhoto")
 }
 
 extension UITextField {

@@ -13,4 +13,5 @@ enum Image {
     static let settings = UIImage(systemName: "gear") ?? UIImage()
     static let defaultUserPicture = UIImage(systemName: "person.circle.fill") ?? UIImage()
     static let newMessage = UIImage(systemName: "square.and.pencil") ?? UIImage()
+    static let paperclip = UIImage(systemName: "paperclip") ?? UIImage()
 }

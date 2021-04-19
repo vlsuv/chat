@@ -26,6 +26,7 @@ class ChatController: MessagesViewController {
         title = viewModel.title
         
         configureMessagesCollectionView()
+        setupMessageInputBar()
         setupBindings()
     }
     
@@ -43,7 +44,18 @@ class ChatController: MessagesViewController {
         messagesCollectionView.messagesDataSource = self
         messagesCollectionView.messagesLayoutDelegate = self
         messagesCollectionView.messagesDisplayDelegate = self
+    }
+    
+    private func setupMessageInputBar() {
         messageInputBar.delegate = self
+        
+        let attachmentButton = InputBarButtonItem()
+        attachmentButton.onTouchUpInside { [weak self] _ in self?.viewModel.didTapAttachmentButton() }
+        attachmentButton.setSize(CGSize(width: 35, height: 35), animated: false)
+        attachmentButton.image = Image.paperclip
+        
+        messageInputBar.setLeftStackViewWidthConstant(to: 35, animated: false)
+        messageInputBar.setStackViewItems([attachmentButton], forStack: .left, animated: false)
     }
     
     private func setupBindings() {
@@ -68,6 +80,14 @@ extension ChatController: MessagesDataSource {
     func numberOfSections(in messagesCollectionView: MessagesCollectionView) -> Int {
         return viewModel.numberOfSections()
     }
+    
+    func configureMediaMessageImageView(_ imageView: UIImageView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
+        guard let message = message as? Message else { return }
+        
+        viewModel.configureMediaMessageImageView(withMessage: message) { image in
+            imageView.image = image
+        }
+    }
 }
 
 // MARK: - MessagesLayoutDelegate
@@ -77,13 +97,12 @@ extension ChatController: MessagesLayoutDelegate {
 
 // MARK: - MessagesDisplayDelegate
 extension ChatController: MessagesDisplayDelegate {
-    
 }
 
 // MARK: - InputBarAccessoryViewDelegate
 extension ChatController: InputBarAccessoryViewDelegate {
     func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
-        viewModel.sendTextMessage(text)
+        viewModel.createTextMessage(text)
         
         inputBar.inputTextView.text.removeAll()
     }
