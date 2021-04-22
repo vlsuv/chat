@@ -44,11 +44,9 @@ class ChatViewModel: ChatViewModelType {
     let otherUser: AppUser
     
     var sender: AppUser? {
-        guard let currentUser = Auth.auth().currentUser,
-            let name = currentUser.displayName,
-            let email = currentUser.email else { return nil }
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate, let currentUser = appDelegate.currentUser else { return nil }
         
-        return AppUser(senderId: currentUser.uid, displayName: name, email: email)
+        return currentUser
     }
     
     var conversation: Conversation? {

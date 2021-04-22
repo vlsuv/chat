@@ -103,8 +103,16 @@ extension NewMessageViewModel {
     }
     
     private func filterUsers(withTerm term: String) {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate, let currentUser = appDelegate.currentUser else { return }
+        
         isLoading = false
         
-        result = users.filter { $0.displayName.lowercased().hasPrefix(term) || $0.email.lowercased().hasPrefix(term) }
+        result = users.filter({ user -> Bool in
+            if user.senderId == currentUser.senderId {
+                return false
+            }
+            
+            return user.displayName.lowercased().hasPrefix(term) || user.email.lowercased().hasPrefix(term)
+        })
     }
 }

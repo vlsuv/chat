@@ -13,7 +13,13 @@ import GoogleSignIn
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
+    var currentUser: AppUser? {
+        guard let currentUser = Auth.auth().currentUser,
+            let name = currentUser.displayName,
+            let email = currentUser.email else { return nil }
+        
+        return AppUser(senderId: currentUser.uid, displayName: name, email: email)
+    }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         FirebaseApp.configure()

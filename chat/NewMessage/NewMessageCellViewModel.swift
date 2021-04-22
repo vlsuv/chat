@@ -7,9 +7,11 @@
 //
 
 import UIKit
+import Combine
 
 protocol NewMessageCellViewModelType {
     var name: String { get }
+    var photo: CurrentValueSubject<UIImage, Never> { get set }
 }
 
 class NewMessageCellViewModel: NewMessageCellViewModelType {
@@ -19,9 +21,24 @@ class NewMessageCellViewModel: NewMessageCellViewModelType {
     var name: String {
         return user.displayName
     }
+    var photo = CurrentValueSubject<UIImage, Never>(Image.defaultUserPicture)
+    
+    private var cancellables = Set<AnyCancellable>()
     
     // MARK: - Init
     init(user: AppUser) {
         self.user = user
+        getPhoto()
+    }
+    
+    // MARK: - Handlers
+    private func getPhoto() {
+        StorageManager.shared.downloadUserPhoto(userUid: user.senderId)
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { _ in
+            }) { [weak self] image in
+                self?.photo.send(image)
+        }
+        .store(in: &cancellables)
     }
 }

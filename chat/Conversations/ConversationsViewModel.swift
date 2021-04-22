@@ -30,14 +30,6 @@ class ConversationsViewModel: ConversationsViewModelType {
     @Published var conversations: [Conversation] = [Conversation]()
     var conversationsPublisher: Published<[Conversation]>.Publisher { $conversations }
     
-    var user: AppUser? {
-        guard let currentUser = Auth.auth().currentUser,
-            let name = currentUser.displayName,
-            let email = currentUser.email else { return nil }
-        
-        return AppUser(senderId: currentUser.uid, displayName: name, email: email)
-    }
-    
     var cancellables = Set<AnyCancellable>()
     
     // MARK: - Init
@@ -81,11 +73,11 @@ class ConversationsViewModel: ConversationsViewModelType {
     }
     
     func deleteConversation(atIndexPath indexPath: IndexPath) {
-        guard let user = user else { return }
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate, let currentUser = appDelegate.currentUser else { return }
         
         let conversation = conversations[indexPath.row]
         
-        DatabaseManager.shared.deleteConversation(conversation, user: user)
+        DatabaseManager.shared.deleteConversation(conversation, user: currentUser)
             .sink(receiveCompletion: { completion in
                 switch completion {
                 case .finished:

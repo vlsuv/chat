@@ -66,6 +66,7 @@ class NewMessageController: UIViewController {
         tableView.delegate = self
         tableView.register(NewMessageCell.self, forCellReuseIdentifier: NewMessageCell.identifier)
         
+        tableView.rowHeight = 80
         tableView.tableFooterView = UIView()
         
         view.addSubview(tableView)
