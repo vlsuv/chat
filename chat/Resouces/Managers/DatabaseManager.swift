@@ -16,6 +16,7 @@ enum DatabaseError: Error {
     case FailedToCreateNewChat
     case FailedToCreateNewChatForOtherUser
     case FailedToSendMessage
+    case FailedToDeleteConversation
 }
 
 class DatabaseManager {
@@ -219,5 +220,36 @@ extension DatabaseManager {
                 let messages = try? JSONDecoder().decode([Message].self, from: messagesJsonData) else { return [Message]() }
                 return messages }
             .eraseToAnyPublisher()
+    }
+    
+    func deleteConversation(_ conversation: Conversation, user: AppUser) -> AnyPublisher<Void, DatabaseError> {
+        let conversationsRef = ref.child("\(user.senderId)/conversations")
+        
+        return Future { promise in
+            conversationsRef.observeSingleEvent(of: .value) { snapshot in
+                guard var conversationCollection = snapshot.value as? [[String: Any]],
+                    let conversationData = try? JSONSerialization.data(withJSONObject: conversationCollection),
+                    let conversations = try? JSONDecoder().decode([Conversation].self, from: conversationData) else {
+                        promise(.failure(.FailedToDeleteConversation))
+                        return
+                }
+                
+                guard let index = conversations.firstIndex(where: { $0.id == conversation.id }) else {
+                    promise(.failure(.FailedToDeleteConversation))
+                    return
+                }
+                
+                conversationCollection.remove(at: index)
+                
+                conversationsRef.setValue(conversationCollection) { error, _ in
+                    if error != nil {
+                        promise(.failure(.FailedToDeleteConversation))
+                        return
+                    }
+                    
+                    promise(.success(()))
+                }
+            }
+        }.eraseToAnyPublisher()
     }
 }

@@ -18,6 +18,8 @@ protocol ConversationsViewModelType {
     func didSelectChat(atIndexPath indexPath: IndexPath)
     
     var conversationsPublisher: Published<[Conversation]>.Publisher { get }
+    
+    func deleteConversation(atIndexPath indexPath: IndexPath)
 }
 
 class ConversationsViewModel: ConversationsViewModelType {
@@ -27,6 +29,14 @@ class ConversationsViewModel: ConversationsViewModelType {
     
     @Published var conversations: [Conversation] = [Conversation]()
     var conversationsPublisher: Published<[Conversation]>.Publisher { $conversations }
+    
+    var user: AppUser? {
+        guard let currentUser = Auth.auth().currentUser,
+            let name = currentUser.displayName,
+            let email = currentUser.email else { return nil }
+        
+        return AppUser(senderId: currentUser.uid, displayName: name, email: email)
+    }
     
     var cancellables = Set<AnyCancellable>()
     
@@ -68,5 +78,24 @@ class ConversationsViewModel: ConversationsViewModelType {
                 self?.conversations = conversations
             })
             .store(in: &cancellables)
+    }
+    
+    func deleteConversation(atIndexPath indexPath: IndexPath) {
+        guard let user = user else { return }
+        
+        let conversation = conversations[indexPath.row]
+        
+        DatabaseManager.shared.deleteConversation(conversation, user: user)
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                case .finished:
+                    break
+                case .failure(let error):
+                    print(error)
+                }
+            }) { _ in
+                print("conversation deleted")
+        }
+        .store(in: &cancellables)
     }
 }

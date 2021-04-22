@@ -51,6 +51,7 @@ class ConversationsController: UIViewController {
         tableView.register(ConversationCell.self, forCellReuseIdentifier: ConversationCell.identifier)
         
         tableView.rowHeight = 90
+        tableView.tableFooterView = UIView()
         
         view.addSubview(tableView)
     }
@@ -87,5 +88,14 @@ extension ConversationsController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         
         viewModel.didSelectChat(atIndexPath: indexPath)
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [weak self] action, view, completionHandler in
+            self?.viewModel.deleteConversation(atIndexPath: indexPath)
+            completionHandler(true)
+        }
+        
+        return UISwipeActionsConfiguration(actions: [deleteAction])
     }
 }
