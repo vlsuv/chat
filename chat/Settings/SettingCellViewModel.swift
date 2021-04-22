@@ -15,13 +15,13 @@ protocol SettingCellViewModelType {
 class SettingCellViewModel: SettingCellViewModelType {
     
     // MARK: - Properties
-    private let setting: String
+    private let setting: Setting
     var name: String {
-        return setting
+        return setting.name
     }
     
     // MARK: - Init
-    init(setting: String) {
+    init(setting: Setting) {
         self.setting = setting
     }
 }

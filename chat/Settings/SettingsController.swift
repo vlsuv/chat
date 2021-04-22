@@ -113,6 +113,8 @@ extension SettingsController: UITableViewDataSource {
 // MARK: - UITableViewDelegate
 extension SettingsController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        
         viewModel.didSelectRow(at: indexPath)
     }
 }

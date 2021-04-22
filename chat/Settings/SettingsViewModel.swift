@@ -10,6 +10,11 @@ import UIKit
 import Firebase
 import Combine
 
+struct Setting {
+    var name: String
+    var closure: (() -> ())?
+}
+
 protocol SettingsViewModelType {
     func numberOfRows() -> Int
     func settingCellViewModel(forIndexPath indexPath: IndexPath) -> SettingCellViewModelType?
@@ -23,7 +28,7 @@ protocol SettingsViewModelType {
 class SettingsViewModel: SettingsViewModelType {
     
     // MARK: - Properties
-    var settings: [String] = ["Sign out"]
+    var settings: [Setting] = [Setting]()
     
     weak var coordinator: SettingsCoordinator?
     
@@ -33,6 +38,7 @@ class SettingsViewModel: SettingsViewModelType {
     
     // MARK: - Init
     init() {
+        setupSettings()
         setupBindings()
         getUserPhoto()
     }
@@ -42,6 +48,24 @@ class SettingsViewModel: SettingsViewModelType {
     }
     
     // MARK: - Handlers
+    private func setupSettings() {
+        let signOut = Setting(name: "Sign Out") { [weak self] in
+            self?.coordinator?.showSignOutActionSheet(completion: {
+                self?.handleSignOut()
+            })
+        }
+        
+        settings.append(signOut)
+    }
+    
+    private func handleSignOut() {
+        do {
+            try Auth.auth().signOut()
+        } catch {
+            print(error)
+        }
+    }
+    
     func numberOfRows() -> Int {
         return settings.count
     }
@@ -52,11 +76,7 @@ class SettingsViewModel: SettingsViewModelType {
     }
     
     func didSelectRow(at indexPath: IndexPath) {
-        do {
-            try Auth.auth().signOut()
-        } catch {
-            print(error)
-        }
+        settings[indexPath.row].closure?()
     }
     
     func didTapChangeUserPhoto() {

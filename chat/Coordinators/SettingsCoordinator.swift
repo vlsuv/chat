@@ -52,4 +52,19 @@ class SettingsCoordinator: Coordinator {
             NotificationCenter.default.post(name: .didChangeUserPhoto, object: image)
         }
     }
+    
+    func showSignOutActionSheet(completion: (() -> ())?) {
+        let actionSheet = UIAlertController(title: "", message: "", preferredStyle: .actionSheet)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { action in
+        }
+        let signOutAction = UIAlertAction(title: "Sign Out", style: .default) { action in
+            completion?()
+        }
+        
+        actionSheet.addAction(cancelAction)
+        actionSheet.addAction(signOutAction)
+        
+        navigationController.present(actionSheet, animated: true, completion: nil)
+    }
 }
