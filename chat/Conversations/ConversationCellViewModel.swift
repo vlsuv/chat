@@ -37,7 +37,7 @@ class ConversationCellViewModel: ConversationCellViewModelType {
         case .photo(_):
             content = "🖼"
         case .video(_):
-            break
+            content = "🎥"
         case .location(_):
             break
         case .emoji(_):

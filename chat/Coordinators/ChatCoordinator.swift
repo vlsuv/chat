@@ -59,9 +59,14 @@ class ChatCoordinator: Coordinator {
             attachmentsActionSheet.dismiss(animated: true, completion: nil)
             self?.showImagePicker()
         }
+        let videoAction = UIAlertAction(title: "Video", style: .default) { [weak self] action in
+            attachmentsActionSheet.dismiss(animated: true, completion: nil)
+            self?.showVideoPicker()
+        }
         
         attachmentsActionSheet.addAction(cancelAction)
         attachmentsActionSheet.addAction(photoAction)
+        attachmentsActionSheet.addAction(videoAction)
         
         navigationController.present(attachmentsActionSheet, animated: true, completion: nil)
     }
@@ -78,5 +83,29 @@ class ChatCoordinator: Coordinator {
             
             NotificationCenter.default.post(name: .didAttachPhoto, object: image)
         }
+    }
+    
+    func showVideoPicker() {
+        let videoPickerCoordinator = VideoPickerCoordinator(navigationController: navigationController)
+        videoPickerCoordinator.start()
+        
+        videoPickerCoordinator.parentCoordinator = self
+        childCoordinators.append(videoPickerCoordinator)
+        
+        videoPickerCoordinator.didFinishPickingMedia = { info in
+            guard let url = info[.mediaURL] as? URL else {
+                return
+            }
+            
+            NotificationCenter.default.post(name: .didAttachVideo, object: url)
+        }
+    }
+    
+    func showVideo(withURL url: URL) {
+        let playerCoordinator = AVPLayerCoordinator(navigationController: navigationController, videoURL: url)
+        playerCoordinator.start()
+        
+        playerCoordinator.parentCoordinator = self
+        childCoordinators.append(playerCoordinator)
     }
 }

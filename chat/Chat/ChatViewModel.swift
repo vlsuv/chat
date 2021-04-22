@@ -10,6 +10,7 @@ import UIKit
 import Combine
 import MessageKit
 import FirebaseAuth
+import AVKit
 
 protocol ChatViewModelType {
     var title: String { get }
@@ -27,6 +28,8 @@ protocol ChatViewModelType {
     func viewDidDisappear()
     
     func configureMediaMessageImageView(withMessage message: Message, completion: @escaping (UIImage) -> ())
+    
+    func didTapImage(atIndexPath indexPath: IndexPath)
 }
 
 class ChatViewModel: ChatViewModelType {
@@ -106,6 +109,13 @@ class ChatViewModel: ChatViewModelType {
                 self?.uploadMessagePhoto(image)
         }
         .store(in: &cancellables)
+        
+        NotificationCenter.default.publisher(for: .didAttachVideo)
+            .compactMap { $0.object as? URL }
+            .sink { [weak self] url in
+                self?.uploadVideoMessage(videoURL: url)
+        }
+        .store(in: &cancellables)
     }
     
     private func setupObserveForAllMessages() {
@@ -128,6 +138,18 @@ class ChatViewModel: ChatViewModelType {
                     completion(image)
             }
             .store(in: &cancellables)
+        default:
+            break
+        }
+    }
+    
+    func didTapImage(atIndexPath indexPath: IndexPath) {
+        let message = messages[indexPath.section]
+        
+        switch message.kind {
+        case .video(let media):
+            guard let url = media.url else { return }
+            coordinator?.showVideo(withURL: url)
         default:
             break
         }
@@ -174,6 +196,39 @@ extension ChatViewModel {
                               sentDate: Date(),
                               kind: .photo(media),
                               user: sender)
+        sendMessage(message)
+    }
+    
+    func uploadVideoMessage(videoURL: URL) {
+        
+        let messageId = generateMessageId()
+        
+        StorageManager.shared.uploadMessageVideoIntoStorage(url: videoURL, messageId: messageId)
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                case .finished:
+                    break
+                case .failure(let error):
+                    print(error)
+                }
+            }) { [weak self] urlString in
+                self?.createVideoMessage(urlString, messageId: messageId)
+        }
+        .store(in: &cancellables)
+    }
+    
+    func createVideoMessage(_ messageVideoURL: String, messageId: String) {
+        guard let sender = sender else { return }
+        
+        let media = Media(size: CGSize(width: 300, height: 300),
+                          urlString: messageVideoURL,
+                          imageData: nil)
+        
+        let message = Message(messageId: messageId,
+                              sentDate: Date(),
+                              kind: .video(media),
+                              user: sender)
+        
         sendMessage(message)
     }
     

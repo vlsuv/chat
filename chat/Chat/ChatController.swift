@@ -44,6 +44,7 @@ class ChatController: MessagesViewController {
         messagesCollectionView.messagesDataSource = self
         messagesCollectionView.messagesLayoutDelegate = self
         messagesCollectionView.messagesDisplayDelegate = self
+        messagesCollectionView.messageCellDelegate = self
     }
     
     private func setupMessageInputBar() {
@@ -92,7 +93,6 @@ extension ChatController: MessagesDataSource {
 
 // MARK: - MessagesLayoutDelegate
 extension ChatController: MessagesLayoutDelegate {
-    
 }
 
 // MARK: - MessagesDisplayDelegate
@@ -105,5 +105,14 @@ extension ChatController: InputBarAccessoryViewDelegate {
         viewModel.createTextMessage(text)
         
         inputBar.inputTextView.text.removeAll()
+    }
+}
+
+// MARK: - MessageCellDelegate
+extension ChatController: MessageCellDelegate {
+    func didTapImage(in cell: MessageCollectionViewCell) {
+        guard let indexPath = messagesCollectionView.indexPath(for: cell) else { return }
+        
+        viewModel.didTapImage(atIndexPath: indexPath)
     }
 }

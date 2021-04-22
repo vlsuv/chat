@@ -1,14 +1,14 @@
 //
-//  ImagePickerCoordinator.swift
+//  VideoPickerCoordinator.swift
 //  chat
 //
-//  Created by vlsuv on 06.04.2021.
+//  Created by vlsuv on 20.04.2021.
 //  Copyright © 2021 vlsuv. All rights reserved.
 //
 
 import UIKit
 
-class ImagePickerCoordinator: NSObject, Coordinator {
+class VideoPickerCoordinator: NSObject, Coordinator {
     
     // MARK: - Properties
     private(set) var childCoordinators: [Coordinator] = [Coordinator]()
@@ -40,8 +40,8 @@ class ImagePickerCoordinator: NSObject, Coordinator {
         let openGalleryAction = UIAlertAction(title: "Open Gallery", style: .default) { [weak self] _ in
             self?.showGallery()
         }
-        let toTakePhotoAction = UIAlertAction(title: "To take a photo", style: .default) { [weak self] _ in
-            self?.toTakePhoto()
+        let toTakePhotoAction = UIAlertAction(title: "To take a video", style: .default) { [weak self] _ in
+            self?.toTakeVideo()
         }
         
         actionSheet.addAction(cancelAction)
@@ -55,19 +55,23 @@ class ImagePickerCoordinator: NSObject, Coordinator {
         let imagePicker = UIImagePickerController()
         
         imagePicker.delegate = self
+        imagePicker.mediaTypes = ["public.movie"]
         imagePicker.sourceType = .photoLibrary
         imagePicker.allowsEditing = true
+        
         imagePicker.modalPresentationStyle = .fullScreen
         
         navigationController.present(imagePicker, animated: true, completion: nil)
     }
     
-    private func toTakePhoto() {
+    private func toTakeVideo() {
         let imagePicker = UIImagePickerController()
         
         imagePicker.delegate = self
+        imagePicker.mediaTypes = ["public.movie"]
         imagePicker.sourceType = .camera
         imagePicker.allowsEditing = true
+        
         imagePicker.modalPresentationStyle = .fullScreen
         
         navigationController.present(imagePicker, animated: true, completion: nil)
@@ -75,7 +79,7 @@ class ImagePickerCoordinator: NSObject, Coordinator {
 }
 
 // MARK: - UIImagePickerControllerDelegate, UINavigationControllerDelegate
-extension ImagePickerCoordinator: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension VideoPickerCoordinator: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         didFinishPickingMedia?(info)

@@ -10,7 +10,6 @@ import Foundation
 import MessageKit
 
 struct Media: MediaItem, Codable {
-    
     var url: URL? {
         guard let urlString = urlString else { return nil }
         return URL(string: urlString)
@@ -20,7 +19,7 @@ struct Media: MediaItem, Codable {
         return UIImage(data: imageData)
     }
     var placeholderImage: UIImage {
-        return Image.newMessage
+        return UIImage()
     }
     var size: CGSize
     
