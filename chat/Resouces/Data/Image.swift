@@ -9,9 +9,21 @@
 import UIKit
 
 enum Image {
-    static let conversations = UIImage(systemName: "bubble.left.and.bubble.right.fill") ?? UIImage()
-    static let settings = UIImage(systemName: "gear") ?? UIImage()
     static let defaultUserPicture = UIImage(systemName: "person.circle.fill") ?? UIImage()
-    static let newMessage = UIImage(systemName: "square.and.pencil") ?? UIImage()
+    
+    static let chats = UIImage(named: "bubble.left.and.bubble.right") ?? UIImage()
+    static let chatsFill = UIImage(named: "bubble.left.and.bubble.right.fill") ?? UIImage()
+    
+    static let newMessage = UIImage(named: "square.and.pencil") ?? UIImage()
+    
+    static let settings = UIImage(named: "gear") ?? UIImage()
+    
+    static let read = UIImage(named: "send.read") ?? UIImage()
+    static let unread = UIImage(named: "send.unread") ?? UIImage()
+    
+    static let trash = UIImage(systemName: "trash") ?? UIImage()
+    
+    static let camera = UIImage(systemName: "camera") ?? UIImage()
+    
     static let paperclip = UIImage(systemName: "paperclip") ?? UIImage()
 }

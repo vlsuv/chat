@@ -21,6 +21,8 @@ class ConversationsController: UIViewController {
     // MARK: - Init
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = viewModel.title
+        
         view.backgroundColor = Color.white
         
         configureNavigationController()
@@ -40,6 +42,7 @@ class ConversationsController: UIViewController {
     // MARK: - Handlers
     private func configureNavigationController() {
         let newMessageButton = UIBarButtonItem(image: Image.newMessage, style: .plain, target: self, action: #selector(didTapNewMessageButton))
+        newMessageButton.tintColor = Color.basicBlue
         
         navigationItem.rightBarButtonItem = newMessageButton
     }
@@ -50,7 +53,7 @@ class ConversationsController: UIViewController {
         tableView.delegate = self
         tableView.register(ConversationCell.self, forCellReuseIdentifier: ConversationCell.identifier)
         
-        tableView.rowHeight = 90
+        tableView.rowHeight = 70
         tableView.tableFooterView = UIView()
         
         view.addSubview(tableView)
@@ -95,6 +98,7 @@ extension ConversationsController: UITableViewDelegate {
             self?.viewModel.deleteConversation(atIndexPath: indexPath)
             completionHandler(true)
         }
+        deleteAction.image = Image.trash
         
         return UISwipeActionsConfiguration(actions: [deleteAction])
     }

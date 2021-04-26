@@ -16,6 +16,7 @@ class NewMessageCell: UITableViewCell {
     
     var nameLabel: UILabel = {
         let label = UILabel()
+        label.font = .systemFont(ofSize: 18, weight: .regular)
         label.textColor = Color.black
         label.textAlignment = .left
         return label
@@ -59,18 +60,19 @@ class NewMessageCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        let photoImageViewSize: CGFloat = 60
-        photoImageView.frame = CGRect(x: contentView.left + 18,
+        let photoImageViewSize: CGFloat = 40
+        photoImageView.frame = CGRect(x: contentView.left + Spaces.leftSpace,
                                       y: (contentView.height - photoImageViewSize) / 2,
                                       width: photoImageViewSize,
                                       height: photoImageViewSize)
         photoImageView.layer.cornerRadius = photoImageViewSize / 2
         
-        nameLabel.frame = CGRect(x: photoImageView.right + 10,
+        nameLabel.frame = CGRect(x: photoImageView.right + Spaces.horizontalSpaceBetweenElements,
                                  y: photoImageView.top,
-                                 width: (contentView.width - photoImageViewSize) - 46,
+                                 width: (contentView.width - photoImageViewSize) - (Spaces.leftSpace + Spaces.rightSpace),
                                  height: photoImageView.height)
         
+        separatorInset.left = photoImageView.right + Spaces.horizontalSpaceBetweenElements
     }
     
     // MARK: - Handlers

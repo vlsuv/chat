@@ -26,6 +26,7 @@ class AppCoordinator: Coordinator {
     func start() {
         tabBarController = UITabBarController()
         tabBarController?.view.backgroundColor = Color.white
+        tabBarController?.tabBar.tintColor = Color.basicBlue
         
         window.rootViewController = tabBarController
         window.makeKeyAndVisible()
@@ -37,12 +38,12 @@ class AppCoordinator: Coordinator {
     }
     
     func startApp() {
-        let conversationsNavigationController = createNavigationController(title: "Conversations", image: Image.conversations)
+        let conversationsNavigationController = createNavigationController(title: "Chats", image: Image.chats, selectedImage: Image.chatsFill)
         let conversationsCoordinator = ConversationsCoordinator(navigationController: conversationsNavigationController)
         conversationsCoordinator.start()
         childCoordinators.append(conversationsCoordinator)
         
-        let settingsNavigationController = createNavigationController(title: "Settings", image: Image.settings)
+        let settingsNavigationController = createNavigationController(title: "Settings", image: Image.settings, selectedImage: nil)
         let settingsCoordinator = SettingsCoordinator(navigationController: settingsNavigationController)
         settingsCoordinator.start()
         childCoordinators.append(settingsCoordinator)
@@ -64,9 +65,10 @@ class AppCoordinator: Coordinator {
 }
 
 extension AppCoordinator {
-    private func createNavigationController(title: String, image: UIImage?) -> UINavigationController {
+    private func createNavigationController(title: String, image: UIImage?, selectedImage: UIImage?) -> UINavigationController {
         let navigationController = UINavigationController()
-        navigationController.tabBarItem = UITabBarItem(title: title, image: image, selectedImage: image)
+        let tabBar = UITabBarItem(title: title, image: image, selectedImage: selectedImage ?? image)
+        navigationController.tabBarItem = tabBar
         return navigationController
     }
 }

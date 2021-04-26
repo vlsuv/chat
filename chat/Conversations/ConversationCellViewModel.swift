@@ -14,6 +14,8 @@ protocol ConversationCellViewModelType {
     var name: String { get }
     var userPhoto: CurrentValueSubject<UIImage, Never> { get set }
     var lastMessageContent: String { get }
+    var sendDate: String { get }
+    var isRead: Bool { get }
 }
 
 class ConversationCellViewModel: ConversationCellViewModelType {
@@ -53,6 +55,16 @@ class ConversationCellViewModel: ConversationCellViewModelType {
         }
         
         return content
+    }
+    
+    var sendDate: String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.setLocalizedDateFormatFromTemplate("MMM d, h:mm a")
+        return dateFormatter.string(from: conversation.lastMessage.sentDate)
+    }
+    
+    var isRead: Bool {
+        return false
     }
     
     var cancellables = Set<AnyCancellable>()

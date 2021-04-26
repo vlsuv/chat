@@ -16,6 +16,9 @@ struct Setting {
 }
 
 protocol SettingsViewModelType {
+    var userName: String { get }
+    var userEmail: String { get }
+    
     func numberOfRows() -> Int
     func settingCellViewModel(forIndexPath indexPath: IndexPath) -> SettingCellViewModelType?
     func didSelectRow(at indexPath: IndexPath)
@@ -35,6 +38,20 @@ class SettingsViewModel: SettingsViewModelType {
     private var cancellables = Set<AnyCancellable>()
     
     var userPhoto = CurrentValueSubject<UIImage, Never>(Image.defaultUserPicture)
+    
+    var appUser: AppUser? {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate, let currentUser = appDelegate.currentUser else { return nil }
+        
+        return currentUser
+    }
+    
+    var userName: String {
+        return appUser?.displayName ?? ""
+    }
+    
+    var userEmail: String {
+        return appUser?.email ?? ""
+    }
     
     // MARK: - Init
     init() {

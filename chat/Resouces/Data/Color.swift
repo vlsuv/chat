@@ -11,6 +11,7 @@ import UIKit
 enum Color {
     static let white: UIColor = .white
     static let black: UIColor = .black
-    static let lightGray: UIColor = .lightGray
-    static let blue: UIColor = .blue
+    static let lightGray = UIColor(named: "LightGray") ?? UIColor.lightGray
+    static let mediumGray = UIColor(named: "MediumGray")
+    static let basicBlue = UIColor(named: "BasicBlue") ?? UIColor()
 }

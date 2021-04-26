@@ -11,6 +11,8 @@ import FirebaseAuth
 import Combine
 
 protocol ConversationsViewModelType {
+    var title: String { get }
+    
     func numberOfRows() -> Int
     func conversationCellViewModel(forIndexPath indexPath: IndexPath) -> ConversationCellViewModelType?
     
@@ -25,6 +27,10 @@ protocol ConversationsViewModelType {
 class ConversationsViewModel: ConversationsViewModelType {
     
     // MARK: - Properties
+    var title: String {
+        return "Chats"
+    }
+    
     weak var coordinator: ConversationsCoordinator?
     
     @Published var conversations: [Conversation] = [Conversation]()

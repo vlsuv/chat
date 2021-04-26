@@ -16,13 +16,53 @@ class SettingsController: UIViewController {
     
     var viewModel: SettingsViewModelType!
     
-    private var userPhotoImageView: UIImageView!
+    private var userPhotoImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.layer.borderWidth = 1
+        imageView.layer.borderColor = Color.lightGray.cgColor
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        return imageView
+    }()
+    
+    private var userNameLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 21, weight: .regular)
+        label.textColor = Color.black
+        label.textAlignment = .center
+        return label
+    }()
+    
+    private var userEmailLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 13, weight: .regular)
+        label.textColor = Color.mediumGray
+        label.textAlignment = .center
+        return label
+    }()
+    
+    private var changeUserPhotoButton: UIButton = {
+        let button = UIButton()
+        let normalAttributedString = NSAttributedString(string: "Set Photo", attributes: [
+            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: .regular),
+            NSAttributedString.Key.foregroundColor: Color.basicBlue
+        ])
+        button.setAttributedTitle(normalAttributedString, for: .normal)
+        button.setImage(Image.camera.withTintColor(Color.basicBlue), for: .normal)
+        button.titleEdgeInsets.left = Spaces.horizontalSpaceBetweenElements
+        button.contentHorizontalAlignment = .left
+        button.addTarget(self, action: #selector(didTapChangeUserPhotoButton), for: .touchUpInside)
+        return button
+    }()
     
     private var cancellables = Set<AnyCancellable>()
     
     // MARK: - Init
     override func viewDidLoad() {
         super.viewDidLoad()
+        userNameLabel.text = viewModel.userName
+        userEmailLabel.text = viewModel.userEmail
+        
         configureTableView()
         setupBindings()
     }
@@ -49,36 +89,46 @@ class SettingsController: UIViewController {
     }
     
     func createTableViewHeader() -> UIView {
+        let userPhotoImageViewSize: CGFloat = 90
+        let changeUserPhotoButtonHeight: CGFloat = 44
+        let userNameLabelHeight: CGFloat = 25
+        let userEmailLabelHeight: CGFloat = 15
+        
         let tableViewHeader = UIView(frame: CGRect(x: 0,
                                                    y: 0,
                                                    width: view.width,
-                                                   height: 210))
+                                                   height: userPhotoImageViewSize + changeUserPhotoButtonHeight + userNameLabelHeight + userEmailLabelHeight + (Spaces.verticalSpaceBetweenElements * 4)))
         tableViewHeader.backgroundColor = Color.white
         
-        let userPhotoImageViewSize: CGFloat = 110
-        let changeUserPhotoButtonHeight: CGFloat = 52
-        
-        userPhotoImageView = UIImageView(frame: CGRect(x: (tableViewHeader.width - userPhotoImageViewSize) / 2,
-                                                             y: (tableViewHeader.height - userPhotoImageViewSize - changeUserPhotoButtonHeight - 10) / 2,
-                                                             width: userPhotoImageViewSize,
-                                                             height: userPhotoImageViewSize))
+        userPhotoImageView.frame = CGRect(x: (tableViewHeader.width - userPhotoImageViewSize) / 2,
+                                          y: tableViewHeader.top + Spaces.verticalSpaceBetweenElements,
+                                          width: userPhotoImageViewSize,
+                                          height: userPhotoImageViewSize)
         userPhotoImageView.layer.cornerRadius = userPhotoImageViewSize / 2
-        userPhotoImageView.layer.borderWidth = 2
-        userPhotoImageView.layer.borderColor = Color.lightGray.cgColor
-        userPhotoImageView.contentMode = .scaleAspectFill
-        userPhotoImageView.clipsToBounds = true
         
-        let changeUserPhotoButton = UIButton(frame: CGRect(x: tableViewHeader.left + 18,
-                                                         y: userPhotoImageView.bottom + 10,
-                                                         width: tableViewHeader.width - 36,
-                                                         height: changeUserPhotoButtonHeight))
-        changeUserPhotoButton.setTitle("Change photo", for: .normal)
-        changeUserPhotoButton.setTitleColor(Color.blue, for: .normal)
-        changeUserPhotoButton.contentHorizontalAlignment = .left
-        changeUserPhotoButton.addTarget(self, action: #selector(didTapChangeUserPhotoButton), for: .touchUpInside)
+        userNameLabel.frame = CGRect(x: tableViewHeader.left + Spaces.leftSpace,
+                                     y: userPhotoImageView.bottom + Spaces.verticalSpaceBetweenElements,
+                                     width: tableViewHeader.width - (Spaces.leftSpace + Spaces.rightSpace),
+                                     height: userNameLabelHeight)
         
-        tableViewHeader.addSubview(userPhotoImageView)
-        tableViewHeader.addSubview(changeUserPhotoButton)
+        userEmailLabel.frame = CGRect(x: tableViewHeader.left + Spaces.leftSpace,
+                                      y: userNameLabel.bottom + Spaces.verticalSpaceBetweenElements,
+                                      width: tableViewHeader.width - (Spaces.leftSpace + Spaces.rightSpace),
+                                      height: userEmailLabelHeight)
+        
+        changeUserPhotoButton.frame = CGRect(x: tableViewHeader.left + Spaces.leftSpace,
+                                             y: userEmailLabel.bottom + Spaces.verticalSpaceBetweenElements,
+                                             width: tableViewHeader.width - (Spaces.leftSpace + Spaces.rightSpace),
+                                             height: changeUserPhotoButtonHeight)
+        
+        let separateLine = UIView(frame: CGRect(x: tableViewHeader.left,
+                                                y: changeUserPhotoButton.top,
+                                                width: tableViewHeader.width,
+                                                height: 0.3))
+        separateLine.backgroundColor = Color.lightGray
+        
+        [userPhotoImageView, userNameLabel, userEmailLabel, changeUserPhotoButton, separateLine]
+            .forEach{ tableViewHeader.addSubview($0) }
         
         return tableViewHeader
     }
