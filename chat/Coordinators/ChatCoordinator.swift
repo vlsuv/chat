@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreLocation.CLLocation
 
 class ChatCoordinator: Coordinator {
     
@@ -63,10 +64,15 @@ class ChatCoordinator: Coordinator {
             attachmentsActionSheet.dismiss(animated: true, completion: nil)
             self?.showVideoPicker()
         }
+        let locationAction = UIAlertAction(title: "Location", style: .default) { [weak self] action in
+            attachmentsActionSheet.dismiss(animated: true, completion: nil)
+            self?.showLocation(withLocation: nil)
+        }
         
         attachmentsActionSheet.addAction(cancelAction)
         attachmentsActionSheet.addAction(photoAction)
         attachmentsActionSheet.addAction(videoAction)
+        attachmentsActionSheet.addAction(locationAction)
         
         navigationController.present(attachmentsActionSheet, animated: true, completion: nil)
     }
@@ -107,5 +113,13 @@ class ChatCoordinator: Coordinator {
         
         playerCoordinator.parentCoordinator = self
         childCoordinators.append(playerCoordinator)
+    }
+    
+    func showLocation(withLocation location: CLLocation?) {
+        let locationCoordinator = LocationCoordinator(navigationController: navigationController, location: location)
+        locationCoordinator.start()
+        
+        locationCoordinator.parentCoordinator = self
+        childCoordinators.append(locationCoordinator)
     }
 }

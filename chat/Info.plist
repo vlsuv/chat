@@ -65,13 +65,13 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-    
-    <key>NSCameraUsageDescription</key>
-    <string>This app wants to take pictures.</string>
-    <key>NSPhotoLibraryUsageDescription</key>
-    <string>This app wants to use your photos.</string>
-    <key>NSMicrophoneUsageDescription</key>
-    <string>This app wants to record sound.</string>
-    
+	<key>NSCameraUsageDescription</key>
+	<string>This app wants to take pictures.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app wants to use your photos.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Allow app know your location.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>This app wants to record sound.</string>
 </dict>
 </plist>

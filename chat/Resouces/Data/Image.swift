@@ -26,4 +26,8 @@ enum Image {
     static let camera = UIImage(systemName: "camera") ?? UIImage()
     
     static let paperclip = UIImage(systemName: "paperclip") ?? UIImage()
+    
+    static let placeholder = UIImage(named: "placeholder") ?? UIImage()
+    
+    static let location = UIImage(systemName: "location") ?? UIImage()
 }

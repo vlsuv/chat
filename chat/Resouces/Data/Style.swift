@@ -14,4 +14,7 @@ enum Spaces {
     
     static let horizontalSpaceBetweenElements: CGFloat = 8
     static let verticalSpaceBetweenElements: CGFloat = 10
+    
+    static let topSpace: CGFloat = 30
+    static let bottomSpace: CGFloat = 30
 }

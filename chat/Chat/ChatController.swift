@@ -110,6 +110,12 @@ extension ChatController: InputBarAccessoryViewDelegate {
 
 // MARK: - MessageCellDelegate
 extension ChatController: MessageCellDelegate {
+    func didTapMessage(in cell: MessageCollectionViewCell) {
+        guard let indexPath = messagesCollectionView.indexPath(for: cell) else { return }
+        
+        viewModel.didTapMessage(atIndexPath: indexPath)
+    }
+    
     func didTapImage(in cell: MessageCollectionViewCell) {
         guard let indexPath = messagesCollectionView.indexPath(for: cell) else { return }
         

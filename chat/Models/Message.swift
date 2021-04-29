@@ -51,6 +51,9 @@ extension MessageKind: Codable {
         case .video:
             let media = try container.decode(Media.self, forKey: .video)
             self = .video(media)
+        case .location:
+            let location = try container.decode(Location.self, forKey: .location)
+            self = .location(location)
         case .none:
             throw CodingError.unknownValue
         case .some(_):
@@ -72,8 +75,9 @@ extension MessageKind: Codable {
         case .video(let media):
             guard let media = media as? Media else { return }
             try container.encode(media, forKey: .video)
-        case .location(_):
-            break
+        case .location(let location):
+            guard let location = location as? Location else { return }
+            try container.encode(location, forKey: .location)
         case .emoji(_):
             break
         case .audio(_):

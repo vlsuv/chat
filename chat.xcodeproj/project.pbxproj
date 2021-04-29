@@ -29,8 +29,12 @@
 		6713A1C126206F60001AEDBE /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6713A1C026206F60001AEDBE /* Message.swift */; };
 		6735CB262631A26D00B09331 /* Notification extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6735CB252631A26C00B09331 /* Notification extensions.swift */; };
 		6735CB282631A45700B09331 /* AVPlayerViewController extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6735CB272631A45700B09331 /* AVPlayerViewController extensions.swift */; };
+		6750EE5D26371D980026FA6F /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6750EE5C26371D980026FA6F /* Location.swift */; };
 		6760F5E3262993EC0047E33E /* Media.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6760F5E2262993EC0047E33E /* Media.swift */; };
 		67675FC526242F880031345B /* FirebaseObservePublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67675FC426242F880031345B /* FirebaseObservePublisher.swift */; };
+		6770DD472636DBFA00EA24E4 /* LocationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6770DD462636DBFA00EA24E4 /* LocationController.swift */; };
+		6770DD492636DD9400EA24E4 /* LocationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6770DD482636DD9400EA24E4 /* LocationCoordinator.swift */; };
+		6770DD4B2636DF0400EA24E4 /* LocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6770DD4A2636DF0400EA24E4 /* LocationViewModel.swift */; };
 		67A3AF32261DC411007A7714 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A3AF31261DC411007A7714 /* StorageManager.swift */; };
 		67A3AF35261DDDD8007A7714 /* AuthPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A3AF34261DDDD8007A7714 /* AuthPublisher.swift */; };
 		67A7078D2618BBC6007B5EBB /* SignupCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A7078C2618BBC6007B5EBB /* SignupCoordinator.swift */; };
@@ -55,6 +59,7 @@
 		67D0B1DA26175D77004A0304 /* ConversationsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D0B1D926175D77004A0304 /* ConversationsCoordinator.swift */; };
 		67D0B1DC261760F8004A0304 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D0B1DB261760F8004A0304 /* Image.swift */; };
 		67D0B1DE26176392004A0304 /* LoginCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D0B1DD26176392004A0304 /* LoginCoordinator.swift */; };
+		67D21F3326395A38005AA598 /* SendLocationButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D21F3226395A38005AA598 /* SendLocationButton.swift */; };
 		67D99594261F03090099DC3B /* NewMessageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D99593261F03090099DC3B /* NewMessageController.swift */; };
 		67D99596261F06250099DC3B /* NewMessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D99595261F06240099DC3B /* NewMessageViewModel.swift */; };
 		67D99598261F06660099DC3B /* NewMessageCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D99597261F06660099DC3B /* NewMessageCellViewModel.swift */; };
@@ -98,8 +103,12 @@
 		6713A1C026206F60001AEDBE /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		6735CB252631A26C00B09331 /* Notification extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification extensions.swift"; sourceTree = "<group>"; };
 		6735CB272631A45700B09331 /* AVPlayerViewController extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVPlayerViewController extensions.swift"; sourceTree = "<group>"; };
+		6750EE5C26371D980026FA6F /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		6760F5E2262993EC0047E33E /* Media.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Media.swift; sourceTree = "<group>"; };
 		67675FC426242F880031345B /* FirebaseObservePublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseObservePublisher.swift; sourceTree = "<group>"; };
+		6770DD462636DBFA00EA24E4 /* LocationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationController.swift; sourceTree = "<group>"; };
+		6770DD482636DD9400EA24E4 /* LocationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationCoordinator.swift; sourceTree = "<group>"; };
+		6770DD4A2636DF0400EA24E4 /* LocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationViewModel.swift; sourceTree = "<group>"; };
 		67A3AF31261DC411007A7714 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		67A3AF34261DDDD8007A7714 /* AuthPublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthPublisher.swift; sourceTree = "<group>"; };
 		67A7078C2618BBC6007B5EBB /* SignupCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupCoordinator.swift; sourceTree = "<group>"; };
@@ -128,6 +137,7 @@
 		67D0B1D926175D77004A0304 /* ConversationsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsCoordinator.swift; sourceTree = "<group>"; };
 		67D0B1DB261760F8004A0304 /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		67D0B1DD26176392004A0304 /* LoginCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCoordinator.swift; sourceTree = "<group>"; };
+		67D21F3226395A38005AA598 /* SendLocationButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendLocationButton.swift; sourceTree = "<group>"; };
 		67D99593261F03090099DC3B /* NewMessageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMessageController.swift; sourceTree = "<group>"; };
 		67D99595261F06240099DC3B /* NewMessageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMessageViewModel.swift; sourceTree = "<group>"; };
 		67D99597261F06660099DC3B /* NewMessageCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMessageCellViewModel.swift; sourceTree = "<group>"; };
@@ -194,6 +204,7 @@
 				6713A1BE26206DC0001AEDBE /* Conversation.swift */,
 				6713A1C026206F60001AEDBE /* Message.swift */,
 				6760F5E2262993EC0047E33E /* Media.swift */,
+				6750EE5C26371D980026FA6F /* Location.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -205,6 +216,16 @@
 				6713A1BA26204744001AEDBE /* ChatViewModel.swift */,
 			);
 			path = Chat;
+			sourceTree = "<group>";
+		};
+		6770DD452636DBCB00EA24E4 /* Location */ = {
+			isa = PBXGroup;
+			children = (
+				6770DD462636DBFA00EA24E4 /* LocationController.swift */,
+				6770DD4A2636DF0400EA24E4 /* LocationViewModel.swift */,
+				67D21F3226395A38005AA598 /* SendLocationButton.swift */,
+			);
+			path = Location;
 			sourceTree = "<group>";
 		};
 		67A3AF33261DDD8B007A7714 /* Publishers */ = {
@@ -250,6 +271,7 @@
 				6713A1B726203FE7001AEDBE /* Chat */,
 				67D99592261F02D60099DC3B /* NewMessage */,
 				67D0B1C9261740B5004A0304 /* Login */,
+				6770DD452636DBCB00EA24E4 /* Location */,
 				67A3AF33261DDD8B007A7714 /* Publishers */,
 				67D0B1BF26173880004A0304 /* Resouces */,
 			);
@@ -352,6 +374,7 @@
 				67AD1AC6261C8F8D00F0152A /* ImagePickerCoordinator.swift */,
 				67D0A630262EDFEF00108BEC /* VideoPickerCoordinator.swift */,
 				67D0A632262EFD0600108BEC /* AVPlayerCoordinator.swift */,
+				6770DD482636DD9400EA24E4 /* LocationCoordinator.swift */,
 			);
 			path = Coordinators;
 			sourceTree = "<group>";
@@ -565,11 +588,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				670F46DC261B0E270014FAD1 /* SignupViewModel.swift in Sources */,
+				67D21F3326395A38005AA598 /* SendLocationButton.swift in Sources */,
 				6713A1B926204002001AEDBE /* ChatController.swift in Sources */,
 				670F46ED261B29410014FAD1 /* SettingsCoordinator.swift in Sources */,
 				67D0B1D326174E11004A0304 /* SignupView.swift in Sources */,
 				670F46DA261B0BF90014FAD1 /* ConversationsViewModel.swift in Sources */,
 				67D0B19C261735B7004A0304 /* AppDelegate.swift in Sources */,
+				6750EE5D26371D980026FA6F /* Location.swift in Sources */,
 				6760F5E3262993EC0047E33E /* Media.swift in Sources */,
 				67C42D142633022600CE2B3E /* Style.swift in Sources */,
 				67D0A633262EFD0600108BEC /* AVPlayerCoordinator.swift in Sources */,
@@ -577,7 +602,9 @@
 				670F46E2261B12C30014FAD1 /* ConversationCellViewModel.swift in Sources */,
 				6713A1BF26206DC0001AEDBE /* Conversation.swift in Sources */,
 				67D0B1D626175B72004A0304 /* AppCoordinator.swift in Sources */,
+				6770DD472636DBFA00EA24E4 /* LocationController.swift in Sources */,
 				67D99594261F03090099DC3B /* NewMessageController.swift in Sources */,
+				6770DD492636DD9400EA24E4 /* LocationCoordinator.swift in Sources */,
 				67D9959C261F0AD10099DC3B /* NewMessageCoordinator.swift in Sources */,
 				670F46E6261B1A770014FAD1 /* Combine extensions.swift in Sources */,
 				67AD1AC7261C8F8E00F0152A /* ImagePickerCoordinator.swift in Sources */,
@@ -587,6 +614,7 @@
 				67D0B19E261735B7004A0304 /* SceneDelegate.swift in Sources */,
 				670F46DE261B0FAD0014FAD1 /* LoginViewModel.swift in Sources */,
 				67D99598261F06660099DC3B /* NewMessageCellViewModel.swift in Sources */,
+				6770DD4B2636DF0400EA24E4 /* LocationViewModel.swift in Sources */,
 				6713A1C126206F60001AEDBE /* Message.swift in Sources */,
 				67D99596261F06250099DC3B /* NewMessageViewModel.swift in Sources */,
 				67D0B1D126174E00004A0304 /* SignupController.swift in Sources */,

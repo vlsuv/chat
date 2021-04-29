@@ -11,6 +11,7 @@ import Combine
 import MessageKit
 import FirebaseAuth
 import AVKit
+import CoreLocation.CLLocation
 
 protocol ChatViewModelType {
     var title: String { get }
@@ -29,6 +30,7 @@ protocol ChatViewModelType {
     
     func configureMediaMessageImageView(withMessage message: Message, completion: @escaping (UIImage) -> ())
     
+    func didTapMessage(atIndexPath indexPath: IndexPath)
     func didTapImage(atIndexPath indexPath: IndexPath)
 }
 
@@ -114,6 +116,13 @@ class ChatViewModel: ChatViewModelType {
                 self?.uploadVideoMessage(videoURL: url)
         }
         .store(in: &cancellables)
+        
+        NotificationCenter.default.publisher(for: .didAttachLocation)
+            .compactMap { $0.object as? CLLocation }
+            .sink { [weak self] location in
+                self?.createLocationMessage(location)
+        }
+        .store(in: &cancellables)
     }
     
     private func setupObserveForAllMessages() {
@@ -126,7 +135,9 @@ class ChatViewModel: ChatViewModelType {
         }
         .store(in: &cancellables)
     }
-    
+}
+
+extension ChatViewModel {
     func configureMediaMessageImageView(withMessage message: Message, completion: @escaping (UIImage) -> ()) {
         switch message.kind {
         case .photo(_):
@@ -136,6 +147,17 @@ class ChatViewModel: ChatViewModelType {
                     completion(image)
             }
             .store(in: &cancellables)
+        default:
+            break
+        }
+    }
+    
+    func didTapMessage(atIndexPath indexPath: IndexPath) {
+        let message = messages[indexPath.section]
+        
+        switch message.kind {
+        case .location(let location):
+            coordinator?.showLocation(withLocation: location.location)
         default:
             break
         }
@@ -225,6 +247,21 @@ extension ChatViewModel {
         let message = Message(messageId: messageId,
                               sentDate: Date(),
                               kind: .video(media),
+                              user: sender)
+        
+        sendMessage(message)
+    }
+    
+    func createLocationMessage(_ location: CLLocation) {
+        guard let sender = sender else { return }
+        
+        let locationMessage = Location(latitude: location.coordinate.latitude,
+                                       longitude: location.coordinate.longitude,
+                                       size: CGSize(width: 200, height: 100))
+        
+        let message = Message(messageId: generateMessageId(),
+                              sentDate: Date(),
+                              kind: .location(locationMessage),
                               user: sender)
         
         sendMessage(message)
