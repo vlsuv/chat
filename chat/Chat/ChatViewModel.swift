@@ -102,6 +102,20 @@ class ChatViewModel: ChatViewModelType {
         coordinator?.showAttachmentsActionSheet()
     }
     
+    private func setupObserveForAllMessages() {
+        guard let conversationId = conversation?.id else { return }
+        
+        DatabaseManager.shared.observeForAllMesages(conversationId: conversationId)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] messages in
+                self?.messages = messages
+        }
+        .store(in: &cancellables)
+    }
+}
+
+// MARK: - Combine
+extension ChatViewModel {
     private func setupBindings() {
         NotificationCenter.default.publisher(for: .didAttachPhoto)
             .compactMap { $0.object as? UIImage }
@@ -124,19 +138,9 @@ class ChatViewModel: ChatViewModelType {
         }
         .store(in: &cancellables)
     }
-    
-    private func setupObserveForAllMessages() {
-        guard let conversationId = conversation?.id else { return }
-        
-        DatabaseManager.shared.observeForAllMesages(conversationId: conversationId)
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] messages in
-                self?.messages = messages
-        }
-        .store(in: &cancellables)
-    }
 }
 
+// MARK: - Handle MessageKit Delegate
 extension ChatViewModel {
     func configureMediaMessageImageView(withMessage message: Message, completion: @escaping (UIImage) -> ()) {
         switch message.kind {
@@ -176,7 +180,11 @@ extension ChatViewModel {
     }
 }
 
+// MARK: - Message Manage
+
 extension ChatViewModel {
+    
+    // Text Message
     func createTextMessage(_ text: String) {
         guard let sender = sender else { return }
         
@@ -188,20 +196,22 @@ extension ChatViewModel {
         sendMessage(message)
     }
     
+    // Photo Message
     private func uploadMessagePhoto(_ image: UIImage) {
         guard let imageData = image.pngData() else { return }
         
         let messageId = generateMessageId()
         
-        StorageManager.shared.uploadMessagePhotoIntoStorage(imageData: imageData, messageId: messageId).sink(receiveCompletion: { completion in
-            switch completion {
-            case .finished:
-                break
-            case .failure(let error):
-                print(error)
-            }
-        }) { [weak self] urlString in
-            self?.createPhotoMessage(urlString, messageId: messageId)
+        StorageManager.shared.uploadMessagePhotoIntoStorage(imageData: imageData, messageId: messageId)
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                case .finished:
+                    break
+                case .failure(let error):
+                    print(error)
+                }
+            }) { [weak self] urlString in
+                self?.createPhotoMessage(urlString, messageId: messageId)
         }
         .store(in: &cancellables)
     }
@@ -219,8 +229,8 @@ extension ChatViewModel {
         sendMessage(message)
     }
     
+    // Video Message
     func uploadVideoMessage(videoURL: URL) {
-        
         let messageId = generateMessageId()
         
         StorageManager.shared.uploadMessageVideoIntoStorage(url: videoURL, messageId: messageId)
@@ -252,6 +262,7 @@ extension ChatViewModel {
         sendMessage(message)
     }
     
+    // Location Message
     func createLocationMessage(_ location: CLLocation) {
         guard let sender = sender else { return }
         
@@ -266,7 +277,10 @@ extension ChatViewModel {
         
         sendMessage(message)
     }
-    
+}
+
+// MARK: - Message Hellpers
+extension ChatViewModel {
     private func sendMessage(_ message: Message) {
         if isNewChat {
             createConversation(withMessage: message)

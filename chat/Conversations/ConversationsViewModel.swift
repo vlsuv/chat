@@ -33,6 +33,12 @@ class ConversationsViewModel: ConversationsViewModelType {
     
     weak var coordinator: ConversationsCoordinator?
     
+    var user: AppUser? {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate, let currentUser = appDelegate.currentUser else { return nil }
+        
+        return currentUser
+    }
+    
     @Published var conversations: [Conversation] = [Conversation]()
     var conversationsPublisher: Published<[Conversation]>.Publisher { $conversations }
     
@@ -68,9 +74,9 @@ class ConversationsViewModel: ConversationsViewModelType {
     }
     
     private func setupObserveForAllConversations() {
-        guard let currentUser = Auth.auth().currentUser else { return }
+        guard let user = user else { return }
         
-        DatabaseManager.shared.observeForAllConversations(userUid: currentUser.uid)
+        DatabaseManager.shared.observeForAllConversations(user: user)
             .receive(on: DispatchQueue.main)
             .sink(receiveValue: { [weak self] conversations in
                 self?.conversations = conversations
