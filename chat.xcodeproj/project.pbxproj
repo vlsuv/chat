@@ -35,6 +35,8 @@
 		6770DD472636DBFA00EA24E4 /* LocationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6770DD462636DBFA00EA24E4 /* LocationController.swift */; };
 		6770DD492636DD9400EA24E4 /* LocationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6770DD482636DD9400EA24E4 /* LocationCoordinator.swift */; };
 		6770DD4B2636DF0400EA24E4 /* LocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6770DD4A2636DF0400EA24E4 /* LocationViewModel.swift */; };
+		67837E88263C447E00FF4760 /* LoginTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67837E87263C447E00FF4760 /* LoginTextField.swift */; };
+		67837E8A263C4C9A00FF4760 /* UINavigationController extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67837E89263C4C9A00FF4760 /* UINavigationController extensions.swift */; };
 		67A3AF32261DC411007A7714 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A3AF31261DC411007A7714 /* StorageManager.swift */; };
 		67A3AF35261DDDD8007A7714 /* AuthPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A3AF34261DDDD8007A7714 /* AuthPublisher.swift */; };
 		67A7078D2618BBC6007B5EBB /* SignupCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A7078C2618BBC6007B5EBB /* SignupCoordinator.swift */; };
@@ -109,6 +111,8 @@
 		6770DD462636DBFA00EA24E4 /* LocationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationController.swift; sourceTree = "<group>"; };
 		6770DD482636DD9400EA24E4 /* LocationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationCoordinator.swift; sourceTree = "<group>"; };
 		6770DD4A2636DF0400EA24E4 /* LocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationViewModel.swift; sourceTree = "<group>"; };
+		67837E87263C447E00FF4760 /* LoginTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginTextField.swift; sourceTree = "<group>"; };
+		67837E89263C4C9A00FF4760 /* UINavigationController extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController extensions.swift"; sourceTree = "<group>"; };
 		67A3AF31261DC411007A7714 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		67A3AF34261DDDD8007A7714 /* AuthPublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthPublisher.swift; sourceTree = "<group>"; };
 		67A7078C2618BBC6007B5EBB /* SignupCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupCoordinator.swift; sourceTree = "<group>"; };
@@ -306,6 +310,7 @@
 				670F46E5261B1A770014FAD1 /* Combine extensions.swift */,
 				6735CB252631A26C00B09331 /* Notification extensions.swift */,
 				6735CB272631A45700B09331 /* AVPlayerViewController extensions.swift */,
+				67837E89263C4C9A00FF4760 /* UINavigationController extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -346,6 +351,7 @@
 				670F46DD261B0FAD0014FAD1 /* LoginViewModel.swift */,
 				67D0B1CC26174121004A0304 /* LoginController.swift */,
 				67D0B1CE2617412C004A0304 /* LoginView.swift */,
+				67837E87263C447E00FF4760 /* LoginTextField.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -596,6 +602,7 @@
 				67D0B19C261735B7004A0304 /* AppDelegate.swift in Sources */,
 				6750EE5D26371D980026FA6F /* Location.swift in Sources */,
 				6760F5E3262993EC0047E33E /* Media.swift in Sources */,
+				67837E88263C447E00FF4760 /* LoginTextField.swift in Sources */,
 				67C42D142633022600CE2B3E /* Style.swift in Sources */,
 				67D0A633262EFD0600108BEC /* AVPlayerCoordinator.swift in Sources */,
 				67D0B1DE26176392004A0304 /* LoginCoordinator.swift in Sources */,
@@ -629,6 +636,7 @@
 				670F46F7261B37010014FAD1 /* AppUser.swift in Sources */,
 				67D0A631262EDFEF00108BEC /* VideoPickerCoordinator.swift in Sources */,
 				670F46F1261B2BB60014FAD1 /* SettingCell.swift in Sources */,
+				67837E8A263C4C9A00FF4760 /* UINavigationController extensions.swift in Sources */,
 				670F46E9261B27B80014FAD1 /* SettingsViewModel.swift in Sources */,
 				6713A1BB26204744001AEDBE /* ChatViewModel.swift in Sources */,
 				6735CB262631A26D00B09331 /* Notification extensions.swift in Sources */,

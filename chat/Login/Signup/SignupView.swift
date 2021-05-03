@@ -23,51 +23,36 @@ class SignupView: UIView {
         return ai
     }()
     
-    var nameTextField: UITextField = {
-        let textField = UITextField()
-        textField.placeholder = "Name"
+    var nameTextField: LoginTextField = {
+        let textField = LoginTextField(frame: .zero, name: "name")
         textField.autocorrectionType = .no
         textField.autocapitalizationType = .none
-        textField.layer.borderWidth = 2
-        textField.layer.borderColor = Color.lightGray.cgColor
-        textField.layer.cornerRadius = 10
-        textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
-        textField.leftViewMode = .always
         return textField
     }()
     
-    var emailTextField: UITextField = {
-        let textField = UITextField()
-        textField.placeholder = "Email"
+    var emailTextField: LoginTextField = {
+        let textField = LoginTextField(frame: .zero, name: "email")
         textField.autocorrectionType = .no
         textField.autocapitalizationType = .none
-        textField.layer.borderWidth = 2
-        textField.layer.borderColor = Color.lightGray.cgColor
-        textField.layer.cornerRadius = 10
-        textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
-        textField.leftViewMode = .always
         return textField
     }()
     
-    var passwordTextField: UITextField = {
-        let textField = UITextField()
-        textField.placeholder = "Password"
+    var passwordTextField: LoginTextField = {
+        let textField = LoginTextField(frame: .zero, name: "password")
         textField.autocorrectionType = .no
         textField.autocapitalizationType = .none
         textField.isSecureTextEntry = true
-        textField.layer.borderWidth = 2
-        textField.layer.borderColor = Color.lightGray.cgColor
-        textField.layer.cornerRadius = 10
-        textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
-        textField.leftViewMode = .always
         return textField
     }()
     
     var signupButton: UIButton = {
-       let button = UIButton()
-        button.setTitle("Sign up", for: .normal)
-        button.setTitleColor(Color.white, for: .normal)
-        button.backgroundColor = Color.black
+        let button = UIButton()
+        let normalAttributedTitle = NSAttributedString(string: "Sign up", attributes: [
+            NSAttributedString.Key.foregroundColor: Color.white,
+            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14, weight: .medium)
+        ])
+        button.setAttributedTitle(normalAttributedTitle, for: .normal)
+        button.backgroundColor = Color.basicBlue
         return button
     }()
     
@@ -103,6 +88,7 @@ class SignupView: UIView {
                                     y: passwordTextField.bottom + 10,
                                     width: scrollView.width - 60,
                                     height: 52)
+        signupButton.layer.cornerRadius = 10
     }
     
     // MARK: - Handlers

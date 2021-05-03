@@ -48,6 +48,10 @@ class LoginController: UIViewController {
         viewModel?.handlePasswordLogin()
     }
     
+    @objc private func didTapGoogleLoginButton() {
+        viewModel.handleGoogleLogin()
+    }
+    
     // MARK: - Handlers
     private func setupContentView() {
         contentView = LoginView(frame: view.bounds)
@@ -55,12 +59,16 @@ class LoginController: UIViewController {
     }
     
     private func configureNavigationController() {
+        navigationController?.toTransparent()
+        navigationController?.navigationBar.tintColor = Color.basicBlue
+        
         let signupButton = UIBarButtonItem(title: "Sign up", style: .plain, target: self, action: #selector(didTapSignupButton))
         navigationItem.rightBarButtonItem = signupButton
     }
     
     private func setupTargets() {
         contentView.passwordLoginButton.addTarget(self, action: #selector(didTapPasswordLoginButton), for: .touchUpInside)
+        contentView.googleLoginButton.addTarget(self, action: #selector(didTapGoogleLoginButton), for: .touchUpInside)
     }
     
     private func setupBindings() {

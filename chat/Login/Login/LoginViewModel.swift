@@ -18,8 +18,11 @@ protocol LoginViewModelType: class {
     var isLoadingPublisher: Published<Bool>.Publisher { get }
     
     func viewDidDisappear()
+    
     func showSignup()
+    
     func handlePasswordLogin()
+    func handleGoogleLogin()
 }
 
 class LoginViewModel: NSObject, LoginViewModelType {
@@ -67,6 +70,10 @@ class LoginViewModel: NSObject, LoginViewModelType {
             self?.isLoading = false
             self?.coordinator?.didFinishLogin()
         }
+    }
+    
+    func handleGoogleLogin() {
+        GIDSignIn.sharedInstance()?.signIn()
     }
 }
 

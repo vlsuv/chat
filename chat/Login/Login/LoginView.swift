@@ -24,43 +24,40 @@ class LoginView: UIView {
         return ai
     }()
     
-    var emailTextField: UITextField = {
-        let textField = UITextField()
-        textField.placeholder = "Email"
+    var emailTextField: LoginTextField = {
+        let textField = LoginTextField(frame: .zero, name: "email")
         textField.autocorrectionType = .no
         textField.autocapitalizationType = .none
-        textField.layer.borderWidth = 2
-        textField.layer.borderColor = Color.lightGray.cgColor
-        textField.layer.cornerRadius = 10
-        textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
-        textField.leftViewMode = .always
         return textField
     }()
     
-    var passwordTextField: UITextField = {
-        let textField = UITextField()
-        textField.placeholder = "Password"
+    var passwordTextField: LoginTextField = {
+        let textField = LoginTextField(frame: .zero, name: "password")
         textField.autocorrectionType = .no
         textField.autocapitalizationType = .none
         textField.isSecureTextEntry = true
-        textField.layer.borderWidth = 2
-        textField.layer.borderColor = Color.lightGray.cgColor
-        textField.layer.cornerRadius = 10
-        textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
-        textField.leftViewMode = .always
         return textField
     }()
     
     var passwordLoginButton: UIButton = {
        let button = UIButton()
-        button.setTitle("Log in", for: .normal)
-        button.setTitleColor(Color.white, for: .normal)
-        button.backgroundColor = Color.black
+        let normalAttributedTitle = NSAttributedString(string: "Log in", attributes: [
+            NSAttributedString.Key.foregroundColor: Color.white,
+            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14, weight: .medium)
+        ])
+        button.setAttributedTitle(normalAttributedTitle, for: .normal)
+        button.backgroundColor = Color.basicBlue
         return button
     }()
     
-    var googleLoginButton: GIDSignInButton = {
-        let button = GIDSignInButton()
+    var googleLoginButton: UIButton = {
+       let button = UIButton()
+        let normalAttributedTitle = NSAttributedString(string: "Sign in with Google", attributes: [
+            NSAttributedString.Key.foregroundColor: Color.white,
+            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14, weight: .medium)
+        ])
+        button.setAttributedTitle(normalAttributedTitle, for: .normal)
+        button.backgroundColor = Color.googleBlue
         return button
     }()
     
@@ -92,10 +89,12 @@ class LoginView: UIView {
                                            y: passwordTextField.bottom + 10,
                                            width: scrollView.width - 60,
                                            height: 52)
+        passwordLoginButton.layer.cornerRadius = 10
         googleLoginButton.frame = CGRect(x: scrollView.left + 30,
                                          y: passwordLoginButton.bottom + 10,
                                          width: scrollView.width - 60,
                                          height: 52)
+        googleLoginButton.layer.cornerRadius = 10
     }
     
     // MARK: - Handlers
