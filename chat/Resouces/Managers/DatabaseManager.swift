@@ -166,7 +166,7 @@ extension DatabaseManager {
         .eraseToAnyPublisher()
     }
     
-    private func addConversationIntoUserCollection(user: AppUser, conversation: Conversation) {
+    func addConversationIntoUserCollection(user: AppUser, conversation: Conversation) {
         let conversationsRef = DatabaseEndpoint.conversations(user: user).ref
         
         guard let conversationData = try? JSONEncoder().encode(conversation),
@@ -174,10 +174,14 @@ extension DatabaseManager {
                 return
         }
         
-        conversationsRef.observeSingleEvent(of: .value) { snapshot in
+        conversationsRef.observeSingleEvent(of: .value) { [weak self] snapshot in
             if var conversationsCollection = snapshot.value as? [[String: Any]] {
-                conversationsCollection.append(conversationDict)
-                conversationsRef.setValue(conversationsCollection)
+                self?.existConversationIntoSenderCollection(sender: user, conversation: conversation) { isExist in
+                    guard !isExist else { return }
+                    
+                    conversationsCollection.append(conversationDict)
+                    conversationsRef.setValue(conversationsCollection)
+                }
             } else {
                 let conversationCollection: [[String: Any]] = [ conversationDict ]
                 conversationsRef.setValue(conversationCollection)
@@ -214,6 +218,48 @@ extension DatabaseManager {
                 }
             }
         }.eraseToAnyPublisher()
+    }
+    
+    // MARK: - Conversation Helpers
+    func existConversationIntoOtherUserCollection(sender: AppUser, otherUser: AppUser, completion: @escaping (Conversation?) -> ()) {
+        let conversationsRef = DatabaseEndpoint.conversations(user: otherUser).ref
+        
+        conversationsRef.observeSingleEvent(of: .value) { snapshot in
+            guard let conversationCollection = snapshot.value as? [[String: Any]],
+                let conversationData = try? JSONSerialization.data(withJSONObject: conversationCollection),
+                let conversations = try? JSONDecoder().decode([Conversation].self, from: conversationData) else {
+                    completion(nil)
+                    return
+            }
+            
+            if let index = conversations.firstIndex(where: { $0.otherUser.senderId == sender.senderId }) {
+                var conversation = conversations[index]
+                conversation.otherUser = otherUser
+                
+                completion(conversation)
+            } else {
+                completion(nil)
+            }
+        }
+    }
+    
+    func existConversationIntoSenderCollection(sender: AppUser, conversation: Conversation, completion: @escaping (Bool) -> ()) {
+        let conversationsRef = DatabaseEndpoint.conversations(user: sender).ref
+        
+        conversationsRef.observeSingleEvent(of: .value) { snapshot in
+            guard let conversationCollection = snapshot.value as? [[String: Any]],
+                let conversationData = try? JSONSerialization.data(withJSONObject: conversationCollection),
+                let conversations = try? JSONDecoder().decode([Conversation].self, from: conversationData) else {
+                    completion(false)
+                    return
+            }
+            
+            if conversations.contains(where: { $0.id == conversation.id }) {
+                completion(true)
+            } else {
+                completion(false)
+            }
+        }
     }
 }
 

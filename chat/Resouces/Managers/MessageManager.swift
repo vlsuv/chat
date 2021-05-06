@@ -54,7 +54,23 @@ class MessageManager: MessageManagerProtocol {
         self.otherUser = otherUser
         
         defer {
-            self.conversation = conversation
+            if conversation == nil {
+                existConversationIntoOtherUserCollection()
+            } else {
+                self.conversation = conversation
+            }
+        }
+    }
+    
+    private func existConversationIntoOtherUserCollection() {
+        guard let sender = sender else { return }
+        
+        DatabaseManager.shared.existConversationIntoOtherUserCollection(sender: sender, otherUser: otherUser) { [weak self] conversation in
+            self?.conversation = conversation
+            
+            guard let conversation = conversation else { return }
+            
+            DatabaseManager.shared.addConversationIntoUserCollection(user: sender, conversation: conversation)
         }
     }
     
