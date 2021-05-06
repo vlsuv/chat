@@ -14,12 +14,14 @@ enum StorageError: Error {
     case FailedToUploadImage
     case FailedToDownloadUserPhoto
     case FailedToUploadVideo
+    case FailedToUploadAudio
 }
 
 enum StorageEndpoint {
     case userPhoto(uid: String)
     case messagePhoto(messageId: String)
     case messageVideo(messageId: String)
+    case messageAudio(messageId: String)
     
     private var storageRef: StorageReference {
         return Storage.storage().reference()
@@ -38,6 +40,10 @@ enum StorageEndpoint {
         case .messageVideo(messageId: let messageId):
             let fileName = "video_message_\(messageId).mov"
             let ref = storageRef.child("message_videos/\(fileName)")
+            return ref
+        case .messageAudio(messageId: let messageId):
+            let fileName = "audio_message_\(messageId).mp3"
+            let ref = storageRef.child("audio_message/\(fileName)")
             return ref
         }
     }
@@ -149,6 +155,30 @@ extension StorageManager {
                     guard let urlString = url?.absoluteString else { return }
                     
                     promise(.success(urlString))
+                }
+            }
+        }.eraseToAnyPublisher()
+    }
+    
+    func uploadMessageAudioIntoStorage(audioURL: URL, messageId: String) -> AnyPublisher<URL, StorageError> {
+        let audioRef = StorageEndpoint.messageAudio(messageId: messageId).getRef
+        
+        return Future { promise in
+            audioRef.putFile(from: audioURL, metadata: nil) { metadata, error in
+                if error != nil {
+                    promise(.failure(.FailedToUploadAudio))
+                    return
+                }
+                
+                audioRef.downloadURL { url, error in
+                    if error != nil {
+                        promise(.failure(.FailedToUploadAudio))
+                        return
+                    }
+                    
+                    guard let url = url else { return }
+                    
+                    promise(.success(url))
                 }
             }
         }.eraseToAnyPublisher()

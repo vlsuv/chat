@@ -54,6 +54,9 @@ extension MessageKind: Codable {
         case .location:
             let location = try container.decode(Location.self, forKey: .location)
             self = .location(location)
+        case .audio:
+            let audio = try container.decode(Audio.self, forKey: .audio)
+            self = .audio(audio)
         case .none:
             throw CodingError.unknownValue
         case .some(_):
@@ -80,8 +83,9 @@ extension MessageKind: Codable {
             try container.encode(location, forKey: .location)
         case .emoji(_):
             break
-        case .audio(_):
-            break
+        case .audio(let audio):
+            guard let audio = audio as? Audio else { return }
+            try container.encode(audio, forKey: .audio)
         case .contact(_):
             break
         case .linkPreview(_):

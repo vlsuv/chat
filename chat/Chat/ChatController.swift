@@ -20,6 +20,11 @@ class ChatController: MessagesViewController {
     
     var isReloaded: Bool = false
     
+    var recordingButton: InputBarButtonItem = {
+        let button = InputBarButtonItem()
+        return button
+    }()
+    
     // MARK: - Init
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,6 +33,7 @@ class ChatController: MessagesViewController {
         configureMessagesCollectionView()
         setupMessageInputBar()
         setupBindings()
+        
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -57,12 +63,34 @@ class ChatController: MessagesViewController {
         
         messageInputBar.setLeftStackViewWidthConstant(to: 35, animated: false)
         messageInputBar.setStackViewItems([attachmentButton], forStack: .left, animated: false)
+        
+        recordingButton.onTouchUpInside { [weak self] _ in self?.viewModel.didTapAudioRecordingButton() }
+        recordingButton.setSize(CGSize(width: 35, height: 35), animated: false)
+        
+        recordingButton.setImage(Image.micro, for: .normal)
+        recordingButton.setImage(Image.fillMicro, for: .selected)
+        
+        messageInputBar.setRightStackViewWidthConstant(to: 35 + 52, animated: false)
+        messageInputBar.setStackViewItems([messageInputBar.sendButton, recordingButton], forStack: .right, animated: false)
     }
     
+    // MARK: - Combine
     private func setupBindings() {
         viewModel.messagesPublisher
             .sink { [weak self] _ in
                 self?.messagesCollectionView.reloadData()
+        }
+        .store(in: &cancellables)
+        
+        viewModel.recordingButtonIsShowPublisher
+            .sink { [weak self] isShow in
+                self?.recordingButton.isHidden = !isShow
+        }
+        .store(in: &cancellables)
+        
+        viewModel.isRecordingPublisher
+            .sink { [weak self] isRecording in
+                self?.recordingButton.isSelected = isRecording
         }
         .store(in: &cancellables)
     }
@@ -120,5 +148,11 @@ extension ChatController: MessageCellDelegate {
         guard let indexPath = messagesCollectionView.indexPath(for: cell) else { return }
         
         viewModel.didTapImage(atIndexPath: indexPath)
+    }
+    
+    func didTapPlayButton(in cell: AudioMessageCell) {
+        guard let indexPath = messagesCollectionView.indexPath(for: cell), let message = messagesCollectionView.messagesDataSource?.messageForItem(at: indexPath, in: messagesCollectionView) else { return }
+        
+        viewModel.didTapPlay(message: message, cell: cell)
     }
 }

@@ -45,6 +45,10 @@ class LoginViewModel: NSObject, LoginViewModelType {
         GIDSignIn.sharedInstance().delegate = self
     }
     
+    deinit {
+        print("deinit: \(self)")
+    }
+    
     // MARK: - Handlers
     func viewDidDisappear() {
         coordinator?.viewDidDisappear()

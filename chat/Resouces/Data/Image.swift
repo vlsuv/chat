@@ -30,4 +30,7 @@ enum Image {
     static let placeholder = UIImage(named: "placeholder") ?? UIImage()
     
     static let location = UIImage(systemName: "location") ?? UIImage()
+    
+    static let micro = UIImage(systemName: "mic") ?? UIImage()
+    static let fillMicro = UIImage(systemName: "mic.fill") ?? UIImage()
 }

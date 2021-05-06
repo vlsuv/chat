@@ -107,7 +107,7 @@ class ChatCoordinator: Coordinator {
         }
     }
     
-    func showVideo(withURL url: URL) {
+    func showPlayer(withMediaURL url: URL) {
         let playerCoordinator = AVPLayerCoordinator(navigationController: navigationController, videoURL: url)
         playerCoordinator.start()
         

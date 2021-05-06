@@ -10,39 +10,46 @@ import UIKit
 import Combine
 import MessageKit
 import FirebaseAuth
-import AVKit
 import CoreLocation.CLLocation
 
 protocol ChatViewModelType {
-    var title: String { get }
+    func viewDidDisappear()
     
-    var messagesPublisher: Published<[Message]>.Publisher { get }
+    var title: String { get }
     
     func currentSender() -> SenderType
     func messageForItem(atIndexPath indexPath: IndexPath) -> MessageType
     func numberOfSections() -> Int
     
+    func didTapAudioRecordingButton()
     func didTapAttachmentButton()
-    
-    func createTextMessage(_ text: String)
-    
-    func viewDidDisappear()
-    
-    func configureMediaMessageImageView(withMessage message: Message, completion: @escaping (UIImage) -> ())
     
     func didTapMessage(atIndexPath indexPath: IndexPath)
     func didTapImage(atIndexPath indexPath: IndexPath)
+    func didTapPlay(message: MessageType, cell: AudioMessageCell)
+    
+    func createTextMessage(_ text: String)
+    
+    func configureMediaMessageImageView(withMessage message: Message, completion: @escaping (UIImage) -> ())
+    
+    var messagesPublisher: Published<[Message]>.Publisher { get }
+    var recordingButtonIsShowPublisher: Published<Bool>.Publisher { get }
+    var isRecordingPublisher: Published<Bool>.Publisher { get }
 }
 
-class ChatViewModel: ChatViewModelType {
+class ChatViewModel: NSObject, ChatViewModelType {
     
     // MARK: - Properties
     var coordinator: ChatCoordinator?
     
+    private var audioRecordingManager: AudioRecordingManagerProtocol?
+    private var messageManager: MessageManagerProtocol?
+    
+    var cancellables = Set<AnyCancellable>()
+    
     var title: String {
         return otherUser.displayName
     }
-    
     let otherUser: AppUser
     
     var sender: AppUser? {
@@ -51,30 +58,24 @@ class ChatViewModel: ChatViewModelType {
         return currentUser
     }
     
-    var conversation: Conversation? {
-        didSet {
-            setupObserveForAllMessages()
-        }
-    }
-    
-    var isNewChat: Bool {
-        return conversation == nil
-    }
-    
     @Published var messages: [Message] = [Message]()
     var messagesPublisher: Published<[Message]>.Publisher { $messages }
     
-    var cancellables = Set<AnyCancellable>()
+    @Published var isRecording: Bool = false
+    var isRecordingPublisher: Published<Bool>.Publisher { $isRecording }
+    
+    @Published var recordingButtonIsShow: Bool = false
+    var recordingButtonIsShowPublisher: Published<Bool>.Publisher { $recordingButtonIsShow }
     
     // MARK: - Init
     init(otherUser: AppUser, conversation: Conversation?) {
         self.otherUser = otherUser
         
-        setupBindings()
+        super.init()
         
-        defer {
-            self.conversation = conversation
-        }
+        setupBindings()
+        setupMessageManager(otherUser: otherUser, conversation: conversation)
+        setupAudioRecordingManager()
     }
     
     deinit {
@@ -102,45 +103,63 @@ class ChatViewModel: ChatViewModelType {
         coordinator?.showAttachmentsActionSheet()
     }
     
-    private func setupObserveForAllMessages() {
-        guard let conversationId = conversation?.id else { return }
-        
-        DatabaseManager.shared.observeForAllMesages(conversationId: conversationId)
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] messages in
-                self?.messages = messages
+    func didTapAudioRecordingButton() {
+        audioRecordingManager?.didTapRecordingButton()
+    }
+    
+    func didTapPlay(message: MessageType, cell: AudioMessageCell) {
+        switch message.kind {
+        case .audio(let item):
+            coordinator?.showPlayer(withMediaURL: item.url)
+        default:
+            break
         }
-        .store(in: &cancellables)
+    }
+    
+    private func setupMessageManager(otherUser: AppUser, conversation: Conversation?) {
+        messageManager = MessageManager(otherUser: otherUser, conversation: conversation)
+        messageManager?.delegate = self
+    }
+    
+    private func setupAudioRecordingManager() {
+        audioRecordingManager = AudioRecordingManager()
+        audioRecordingManager?.delegate = self
+        
+        audioRecordingManager?.setupRecordingSession()
+    }
+    
+    func createTextMessage(_ text: String) {
+        messageManager?.sendTextMessage(withText: text)
     }
 }
 
-// MARK: - Combine
+// MARK: - Combine Handlers
 extension ChatViewModel {
     private func setupBindings() {
         NotificationCenter.default.publisher(for: .didAttachPhoto)
             .compactMap { $0.object as? UIImage }
             .sink { [weak self] image in
-                self?.uploadMessagePhoto(image)
+                self?.messageManager?.sendPhotoMessage(withImage: image)
         }
         .store(in: &cancellables)
         
         NotificationCenter.default.publisher(for: .didAttachVideo)
             .compactMap { $0.object as? URL }
             .sink { [weak self] url in
-                self?.uploadVideoMessage(videoURL: url)
+                self?.messageManager?.sendVideoMessage(fromLocalURL: url)
         }
         .store(in: &cancellables)
         
         NotificationCenter.default.publisher(for: .didAttachLocation)
             .compactMap { $0.object as? CLLocation }
             .sink { [weak self] location in
-                self?.createLocationMessage(location)
+                self?.messageManager?.sendLocationMessage(withLocation: location)
         }
         .store(in: &cancellables)
     }
 }
 
-// MARK: - Handle MessageKit Delegate
+// MARK: - MessageKit Handlers
 extension ChatViewModel {
     func configureMediaMessageImageView(withMessage message: Message, completion: @escaping (UIImage) -> ()) {
         switch message.kind {
@@ -173,159 +192,38 @@ extension ChatViewModel {
         switch message.kind {
         case .video(let media):
             guard let url = media.url else { return }
-            coordinator?.showVideo(withURL: url)
+            coordinator?.showPlayer(withMediaURL: url)
         default:
             break
         }
     }
 }
 
-// MARK: - Message Manage
-
-extension ChatViewModel {
-    
-    // Text Message
-    func createTextMessage(_ text: String) {
-        guard let sender = sender else { return }
-        
-        let message = Message(messageId: generateMessageId(),
-                              sentDate: Date(),
-                              kind: .text(text),
-                              user: sender)
-        
-        sendMessage(message)
-    }
-    
-    // Photo Message
-    private func uploadMessagePhoto(_ image: UIImage) {
-        guard let imageData = image.pngData() else { return }
-        
-        let messageId = generateMessageId()
-        
-        StorageManager.shared.uploadMessagePhotoIntoStorage(imageData: imageData, messageId: messageId)
-            .sink(receiveCompletion: { completion in
-                switch completion {
-                case .finished:
-                    break
-                case .failure(let error):
-                    print(error)
-                }
-            }) { [weak self] urlString in
-                self?.createPhotoMessage(urlString, messageId: messageId)
-        }
-        .store(in: &cancellables)
-    }
-    
-    func createPhotoMessage(_ messagePhotoURL: String, messageId: String) {
-        guard let sender = sender else { return }
-        
-        let media = Media(size: CGSize(width: 300, height: 300),
-                          urlString: messagePhotoURL,
-                          imageData: nil)
-        let message = Message(messageId: messageId,
-                              sentDate: Date(),
-                              kind: .photo(media),
-                              user: sender)
-        sendMessage(message)
-    }
-    
-    // Video Message
-    func uploadVideoMessage(videoURL: URL) {
-        let messageId = generateMessageId()
-        
-        StorageManager.shared.uploadMessageVideoIntoStorage(url: videoURL, messageId: messageId)
-            .sink(receiveCompletion: { completion in
-                switch completion {
-                case .finished:
-                    break
-                case .failure(let error):
-                    print(error)
-                }
-            }) { [weak self] urlString in
-                self?.createVideoMessage(urlString, messageId: messageId)
-        }
-        .store(in: &cancellables)
-    }
-    
-    func createVideoMessage(_ messageVideoURL: String, messageId: String) {
-        guard let sender = sender else { return }
-        
-        let media = Media(size: CGSize(width: 300, height: 300),
-                          urlString: messageVideoURL,
-                          imageData: nil)
-        
-        let message = Message(messageId: messageId,
-                              sentDate: Date(),
-                              kind: .video(media),
-                              user: sender)
-        
-        sendMessage(message)
-    }
-    
-    // Location Message
-    func createLocationMessage(_ location: CLLocation) {
-        guard let sender = sender else { return }
-        
-        let locationMessage = Location(latitude: location.coordinate.latitude,
-                                       longitude: location.coordinate.longitude,
-                                       size: CGSize(width: 200, height: 100))
-        
-        let message = Message(messageId: generateMessageId(),
-                              sentDate: Date(),
-                              kind: .location(locationMessage),
-                              user: sender)
-        
-        sendMessage(message)
+// MARK: - MessageManagerDelegate
+extension ChatViewModel: MessageManagerDelegate {
+    func didChangeMessageList(messages: [Message]) {
+        self.messages = messages
     }
 }
 
-// MARK: - Message Hellpers
-extension ChatViewModel {
-    private func sendMessage(_ message: Message) {
-        if isNewChat {
-            createConversation(withMessage: message)
-        } else {
-            sendMessageToExistConversation(withMessage: message)
+// MARK: - AudioRecordingManagerDelegate
+extension ChatViewModel: AudioRecordingManagerDelegate {
+    func didChangeRecordingState(to state: AudioRecordingState) {
+        switch state {
+        case .playing:
+            isRecording = true
+        case .stopped:
+            isRecording = false
         }
     }
     
-    private func createConversation(withMessage message: Message) {
-        DatabaseManager.shared.createConversation(otherUser: otherUser, message: message)
-            .receive(on: DispatchQueue.main)
-            .sink(receiveCompletion: { completion in
-                switch completion {
-                case .finished:
-                    break
-                case .failure(let error):
-                    print(error)
-                }
-            }) { [weak self] newConversation in
-                self?.conversation = newConversation
+    func didSetupRecordingSession(succes: Bool) {
+        if succes {
+            recordingButtonIsShow = true
         }
-        .store(in: &cancellables)
     }
     
-    private func sendMessageToExistConversation(withMessage message: Message) {
-        guard let conversation = conversation else { return }
-        
-        DatabaseManager.shared.sendMessage(to: conversation, message: message)
-            .sink(receiveCompletion: { completion in
-                switch completion {
-                case .finished:
-                    break
-                case .failure(let error):
-                    print(error)
-                }
-            }) { _ in
-                print("Message send")
-        }
-        .store(in: &cancellables)
-    }
-    
-    private func generateMessageId() -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.timeStyle = .long
-        dateFormatter.dateStyle = .medium
-        return "\(sender!.senderId)_\(otherUser.senderId)_\(dateFormatter.string(from: Date()))"
+    func audioRecorderDidFinishRecording(audioURL: URL) {
+        messageManager?.sendAudioMessage(fromLocalURL: audioURL)
     }
 }
