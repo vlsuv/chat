@@ -37,6 +37,7 @@
 		6770DD4B2636DF0400EA24E4 /* LocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6770DD4A2636DF0400EA24E4 /* LocationViewModel.swift */; };
 		67837E88263C447E00FF4760 /* LoginTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67837E87263C447E00FF4760 /* LoginTextField.swift */; };
 		67837E8A263C4C9A00FF4760 /* UINavigationController extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67837E89263C4C9A00FF4760 /* UINavigationController extensions.swift */; };
+		6791938F264ABCAF00AC53DC /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6791938E264ABCAF00AC53DC /* StorageService.swift */; };
 		67A3AF32261DC411007A7714 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A3AF31261DC411007A7714 /* StorageManager.swift */; };
 		67A3AF35261DDDD8007A7714 /* AuthPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A3AF34261DDDD8007A7714 /* AuthPublisher.swift */; };
 		67A7078D2618BBC6007B5EBB /* SignupCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A7078C2618BBC6007B5EBB /* SignupCoordinator.swift */; };
@@ -71,6 +72,7 @@
 		67D9959A261F06740099DC3B /* NewMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D99599261F06740099DC3B /* NewMessageCell.swift */; };
 		67D9959C261F0AD10099DC3B /* NewMessageCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D9959B261F0AD10099DC3B /* NewMessageCoordinator.swift */; };
 		67E7201726414BD6008469D5 /* BasicAudioController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7201626414BD6008469D5 /* BasicAudioController.swift */; };
+		67F380E12646960D009BD6FD /* DatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67F380E02646960D009BD6FD /* DatabaseService.swift */; };
 		C9100FAD0AB2B868D03048B4 /* Pods_chat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C72E449A29CAD85E02BB4101 /* Pods_chat.framework */; };
 /* End PBXBuildFile section */
 
@@ -117,6 +119,7 @@
 		6770DD4A2636DF0400EA24E4 /* LocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationViewModel.swift; sourceTree = "<group>"; };
 		67837E87263C447E00FF4760 /* LoginTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginTextField.swift; sourceTree = "<group>"; };
 		67837E89263C4C9A00FF4760 /* UINavigationController extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController extensions.swift"; sourceTree = "<group>"; };
+		6791938E264ABCAF00AC53DC /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
 		67A3AF31261DC411007A7714 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		67A3AF34261DDDD8007A7714 /* AuthPublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthPublisher.swift; sourceTree = "<group>"; };
 		67A7078C2618BBC6007B5EBB /* SignupCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupCoordinator.swift; sourceTree = "<group>"; };
@@ -155,6 +158,7 @@
 		67D99599261F06740099DC3B /* NewMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMessageCell.swift; sourceTree = "<group>"; };
 		67D9959B261F0AD10099DC3B /* NewMessageCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMessageCoordinator.swift; sourceTree = "<group>"; };
 		67E7201626414BD6008469D5 /* BasicAudioController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicAudioController.swift; sourceTree = "<group>"; };
+		67F380E02646960D009BD6FD /* DatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseService.swift; sourceTree = "<group>"; };
 		730A6A09289C6079D692AA04 /* Pods_chatTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_chatTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C72E449A29CAD85E02BB4101 /* Pods_chat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_chat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD7352D5D98C9923AD3B18B3 /* Pods-chatTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-chatTests.debug.xcconfig"; path = "Target Support Files/Pods-chatTests/Pods-chatTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -205,8 +209,6 @@
 			children = (
 				67AEDE662642944300CCF2A7 /* AudioRecordingManager.swift */,
 				67AEDE682642A7A500CCF2A7 /* MessageManager.swift */,
-				670F46F3261B30400014FAD1 /* DatabaseManager.swift */,
-				67A3AF31261DC411007A7714 /* StorageManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -234,6 +236,15 @@
 			path = Chat;
 			sourceTree = "<group>";
 		};
+		671AC716264AB6A6002AAD18 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				6791938D264ABC5800AC53DC /* StorageService */,
+				6791938C264ABC3E00AC53DC /* DatabaseService */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
 		6770DD452636DBCB00EA24E4 /* Location */ = {
 			isa = PBXGroup;
 			children = (
@@ -242,6 +253,24 @@
 				67D21F3226395A38005AA598 /* SendLocationButton.swift */,
 			);
 			path = Location;
+			sourceTree = "<group>";
+		};
+		6791938C264ABC3E00AC53DC /* DatabaseService */ = {
+			isa = PBXGroup;
+			children = (
+				67F380E02646960D009BD6FD /* DatabaseService.swift */,
+				670F46F3261B30400014FAD1 /* DatabaseManager.swift */,
+			);
+			path = DatabaseService;
+			sourceTree = "<group>";
+		};
+		6791938D264ABC5800AC53DC /* StorageService */ = {
+			isa = PBXGroup;
+			children = (
+				6791938E264ABCAF00AC53DC /* StorageService.swift */,
+				67A3AF31261DC411007A7714 /* StorageManager.swift */,
+			);
+			path = StorageService;
 			sourceTree = "<group>";
 		};
 		67A3AF33261DDD8B007A7714 /* Publishers */ = {
@@ -306,11 +335,12 @@
 		67D0B1BF26173880004A0304 /* Resouces */ = {
 			isa = PBXGroup;
 			children = (
+				671AC716264AB6A6002AAD18 /* Service */,
+				670F46F2261B30280014FAD1 /* Managers */,
+				67D0B1C626173A64004A0304 /* Data */,
+				67D0B1C0261738AD004A0304 /* Extensions */,
 				67D0B1A4261735CD004A0304 /* Assets.xcassets */,
 				67D0B1A6261735CD004A0304 /* LaunchScreen.storyboard */,
-				670F46F2261B30280014FAD1 /* Managers */,
-				67D0B1C0261738AD004A0304 /* Extensions */,
-				67D0B1C626173A64004A0304 /* Data */,
 			);
 			path = Resouces;
 			sourceTree = "<group>";
@@ -605,6 +635,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6791938F264ABCAF00AC53DC /* StorageService.swift in Sources */,
 				670F46DC261B0E270014FAD1 /* SignupViewModel.swift in Sources */,
 				67D21F3326395A38005AA598 /* SendLocationButton.swift in Sources */,
 				6713A1B926204002001AEDBE /* ChatController.swift in Sources */,
@@ -638,6 +669,7 @@
 				6713A1C126206F60001AEDBE /* Message.swift in Sources */,
 				67D99596261F06250099DC3B /* NewMessageViewModel.swift in Sources */,
 				67D0B1D126174E00004A0304 /* SignupController.swift in Sources */,
+				67F380E12646960D009BD6FD /* DatabaseService.swift in Sources */,
 				67675FC526242F880031345B /* FirebaseObservePublisher.swift in Sources */,
 				67A7078D2618BBC6007B5EBB /* SignupCoordinator.swift in Sources */,
 				670F46E0261B128B0014FAD1 /* ConversationCell.swift in Sources */,

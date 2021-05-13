@@ -100,8 +100,8 @@ class MessageManager: MessageManagerProtocol {
                 case .failure(let error):
                     print(error)
                 }
-            }) { [weak self] urlString in
-                self?.createPhotoMessage(urlString, messageId: photoMessageId)
+            }) { [weak self] url in
+                self?.createPhotoMessage(url.absoluteString, messageId: photoMessageId)
         }
         .store(in: &cancellables)
     }
@@ -131,8 +131,8 @@ class MessageManager: MessageManagerProtocol {
                 case .failure(let error):
                     print(error)
                 }
-            }) { [weak self] urlString in
-                self?.createVideoMessage(urlString, messageId: messageId)
+            }) { [weak self] url in
+                self?.createVideoMessage(url.absoluteString, messageId: messageId)
         }
         .store(in: &cancellables)
     }
@@ -250,7 +250,14 @@ extension MessageManager {
         
         DatabaseManager.shared.observeForAllMesages(conversationId: conversationId)
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] messages in
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                case .finished:
+                    break
+                case .failure(let error):
+                    print(error)
+                }
+            }) { [weak self] messages in
                 self?.delegate?.didChangeMessageList(messages: messages)
         }
         .store(in: &cancellables)

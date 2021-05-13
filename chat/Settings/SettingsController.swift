@@ -8,6 +8,7 @@
 
 import UIKit
 import Combine
+import FirebaseAuth
 
 class SettingsController: UIViewController {
     

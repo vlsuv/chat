@@ -78,10 +78,17 @@ class ConversationsViewModel: ConversationsViewModelType {
         
         DatabaseManager.shared.observeForAllConversations(user: user)
             .receive(on: DispatchQueue.main)
-            .sink(receiveValue: { [weak self] conversations in
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                case .finished:
+                    break
+                case .failure(let error):
+                    print(error)
+                }
+            }) { [weak self] conversations in
                 self?.conversations = conversations
-            })
-            .store(in: &cancellables)
+        }
+        .store(in: &cancellables)
     }
     
     func deleteConversation(atIndexPath indexPath: IndexPath) {
